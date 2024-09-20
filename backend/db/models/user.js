@@ -5,10 +5,8 @@
 const { Model, Validator } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  console.log("Defining User model...");
   class User extends Model {
     static associate(models) {
-      console.log("Associating User model with others...");
 
     }
   }
