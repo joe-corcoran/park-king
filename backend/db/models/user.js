@@ -1,16 +1,34 @@
+
+
 'use strict';
 
 const { Model, Validator } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
+  console.log("Defining User model...");
   class User extends Model {
     static associate(models) {
-      // define association here
+      console.log("Associating User model with others...");
+
     }
   }
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 50], 
+        },
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 50], 
+        },
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -44,9 +62,19 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'User',
+
       defaultScope: {
         attributes: {
+          include: ['id', 'firstName', 'lastName', 'username'],
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
+        },
+      },
+      scopes: {
+        currentUser: {
+          attributes: { exclude: ['hashedPassword'] },
+        },
+        withEmail: {
+          attributes: { exclude: ['hashedPassword'] },
         },
       },
     }
