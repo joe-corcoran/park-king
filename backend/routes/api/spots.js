@@ -116,37 +116,7 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
     }
 });
 
-//get all spots
-router.get('/', async (req, res, next) => {
-    try {
-      const spots = await Spot.findAll({
-        include: [
-          {
-            model: Review,
-            attributes: []
-          },
-          {
-            model: SpotImage,
-            where: { preview: true },
-            required: false,
-            attributes: ['url']
-          }
-        ],
-        attributes: {
-          include: [
-            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
-            [sequelize.col('SpotImages.url'), 'previewImage']
-          ]
-        },
-        group: ['Spot.id', 'SpotImages.url']
-      });
   
-      res.json({ Spots: spots });
-    } catch (err) {
-      next(err);
-    }
-  });
-
   // Add an Image to a Spot based on the Spot's id
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const { spotId } = req.params;
@@ -184,38 +154,106 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     }
   });
 
-  // Get all Spots owned by the Current User
-router.get('/current', requireAuth, async (req, res, next) => {
-    const userId = req.user.id;
+ // Get all Spots with Query Filters
+router.get('/', async (req, res, next) => {
+    let {
+      page = 1,
+      size = 20,
+      minLat,
+      maxLat,
+      minLng,
+      maxLng,
+      minPrice,
+      maxPrice
+    } = req.query;
+  
+    // Convert to integers
+    page = parseInt(page);
+    size = parseInt(size);
+  
+    // Validation
+    const errors = {};
+    if (isNaN(page) || page < 1) {
+      errors.page = "Page must be greater than or equal to 1";
+    }
+    if (isNaN(size) || size < 1 || size > 20) {
+      errors.size = "Size must be between 1 and 20";
+    }
+    if (minLat && isNaN(parseFloat(minLat))) {
+      errors.minLat = "Minimum latitude is invalid";
+    }
+    if (maxLat && isNaN(parseFloat(maxLat))) {
+      errors.maxLat = "Maximum latitude is invalid";
+    }
+    if (minLng && isNaN(parseFloat(minLng))) {
+      errors.minLng = "Minimum longitude is invalid";
+    }
+    if (maxLng && isNaN(parseFloat(maxLng))) {
+      errors.maxLng = "Maximum longitude is invalid";
+    }
+    if (minPrice && (isNaN(parseFloat(minPrice)) || parseFloat(minPrice) < 0)) {
+      errors.minPrice = "Minimum price must be a positive number";
+    }
+    if (maxPrice && (isNaN(parseFloat(maxPrice)) || parseFloat(maxPrice) < 0)) {
+      errors.maxPrice = "Maximum price must be a positive number";
+    }
+  
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        message: "Bad Request",
+        errors
+      });
+    }
+  
+    const where = {};
+  
+    if (minLat) where.lat = { [Op.gte]: parseFloat(minLat) };
+    if (maxLat) where.lat = { ...(where.lat || {}), [Op.lte]: parseFloat(maxLat) };
+    if (minLng) where.lng = { [Op.gte]: parseFloat(minLng) };
+    if (maxLng) where.lng = { ...(where.lng || {}), [Op.lte]: parseFloat(maxLng) };
+    if (minPrice) where.price = { [Op.gte]: parseFloat(minPrice) };
+    if (maxPrice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(maxPrice) };
   
     try {
+      // Fetch spots with their average ratings and preview images
       const spots = await Spot.findAll({
-        where: { ownerId: userId },
-        include: [
-          {
-            model: SpotImage,
-            attributes: ['url'],
-            where: { preview: true },
-            required: false
-          },
-          {
-            model: Review,
-            attributes: []
-          }
-        ],
+        where,
         attributes: {
           include: [
-            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
-            [sequelize.col('SpotImages.url'), 'previewImage']
+            // Calculate avgRating
+            [
+              sequelize.literal(`(
+                SELECT AVG("Reviews"."stars")
+                FROM "Reviews"
+                WHERE "Reviews"."spotId" = "Spot"."id"
+              )`),
+              'avgRating'
+            ],
+            // Get previewImage
+            [
+              sequelize.literal(`(
+                SELECT "url"
+                FROM "SpotImages"
+                WHERE "SpotImages"."spotId" = "Spot"."id" AND "SpotImages"."preview" = true
+                LIMIT 1
+              )`),
+              'previewImage'
+            ]
           ]
         },
-        group: ['Spot.id', 'SpotImages.url']
+        limit: size,
+        offset: (page - 1) * size
       });
   
-      res.json({ Spots: spots });
+      res.json({
+        Spots: spots,
+        page,
+        size
+      });
     } catch (error) {
       next(error);
     }
   });
+  
 
 module.exports = router
