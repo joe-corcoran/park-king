@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, Booking } = require('../../db/models');
+const { Spot, Review, Booking, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateSpot, validateReview, validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -28,6 +28,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     }
 });
 
+//Add a review to a spot
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
     const { review, stars } = req.body;
     const spotId = parseInt(req.params.spotId);
@@ -60,7 +61,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     }
 });
 
-
+//add a booking to a spot
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const spotId = parseInt(req.params.spotId);
@@ -114,5 +115,73 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         next(err);
     }
 });
+
+//get all spots
+router.get('/', async (req, res, next) => {
+    try {
+      const spots = await Spot.findAll({
+        include: [
+          {
+            model: Review,
+            attributes: []
+          },
+          {
+            model: SpotImage,
+            where: { preview: true },
+            required: false,
+            attributes: ['url']
+          }
+        ],
+        attributes: {
+          include: [
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
+            [sequelize.col('SpotImages.url'), 'previewImage']
+          ]
+        },
+        group: ['Spot.id', 'SpotImages.url']
+      });
+  
+      res.json({ Spots: spots });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Add an Image to a Spot based on the Spot's id
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+    const { spotId } = req.params;
+    const { url, preview } = req.body;
+    const userId = req.user.id;
+  
+    try {
+      const spot = await Spot.findByPk(spotId);
+  
+      // Check if spot exists
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+  
+      // Check ownership
+      if (spot.ownerId !== userId) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+  
+      // Create new SpotImage
+      const newImage = await SpotImage.create({
+        spotId,
+        url,
+        preview
+      });
+  
+      // Return the required response
+      res.status(201).json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
 
 module.exports = router
