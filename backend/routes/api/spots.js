@@ -3,6 +3,7 @@ const { Spot, Review, Booking, SpotImage, sequelize } = require('../../db/models
 const { requireAuth } = require('../../utils/auth');
 const { validateSpot, validateReview, validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
+const { User } = require('../../db/models');
 
 const router = express.Router()
 
@@ -254,6 +255,48 @@ router.get('/', async (req, res, next) => {
       next(error);
     }
   });
+
+  // Get details of a Spot from an id
+router.get('/:spotId', async (req, res, next) => {
+    const { spotId } = req.params;
+  
+    try {
+      const spot = await Spot.findByPk(spotId, {
+        include: [
+          {
+            model: SpotImage,
+            attributes: ['id', 'url', 'preview']
+          },
+          {
+            model: User,
+            as: 'Owner',
+            attributes: ['id', 'firstName', 'lastName']
+          },
+          {
+            model: Review,
+            attributes: []
+          }
+        ],
+        attributes: {
+          include: [
+            [sequelize.fn('COUNT', sequelize.col('Reviews.id')), 'numReviews'],
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating']
+          ]
+        },
+        group: ['Spot.id', 'SpotImages.id', 'Owner.id']
+      });
+  
+      // Check if spot exists
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+  
+      res.json(spot);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
   
 
 module.exports = router
