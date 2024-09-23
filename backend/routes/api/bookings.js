@@ -1,5 +1,5 @@
 const express = require('express');
-const { Booking, Spot, User } = require('../../db/models');
+const { Booking, Spot, SpotImage, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateBooking } = require('../../utils/validation');
 
@@ -61,4 +61,49 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         next(err);
     }
 });
+
+// Get all of the Current User's Bookings
+router.get('/current', requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+  
+    try {
+      const bookings = await Booking.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Spot,
+            attributes: {
+              exclude: ['description', 'createdAt', 'updatedAt']
+            },
+            include: [
+              {
+                model: SpotImage,
+                where: { preview: true },
+                attributes: ['url'],
+                required: false
+              }
+            ]
+          }
+        ]
+      });
+  
+      const bookingsList = bookings.map(booking => {
+        const bookingJSON = booking.toJSON();
+        if (bookingJSON.Spot.SpotImages && bookingJSON.Spot.SpotImages.length > 0) {
+          bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+        } else {
+          bookingJSON.Spot.previewImage = null;
+        }
+        delete bookingJSON.Spot.SpotImages;
+        return bookingJSON;
+      });
+  
+      res.json({ Bookings: bookingsList });
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  module.exports = router;
+  
 module.exports = router;
