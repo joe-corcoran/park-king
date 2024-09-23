@@ -297,6 +297,38 @@ router.get('/:spotId', async (req, res, next) => {
     }
   });
   
+  // Edit a Spot
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
+    const { spotId } = req.params;
+    const userId = req.user.id;
+    const {
+      address, city, state, country, lat, lng, name, description, price
+    } = req.body;
+  
+    try {
+      const spot = await Spot.findByPk(spotId);
+  
+      // Check if spot exists
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+  
+      // Check ownership
+      if (spot.ownerId !== userId) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+  
+      // Update spot
+      await spot.update({
+        address, city, state, country, lat, lng, name, description, price
+      });
+  
+      res.json(spot);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
   
 
 module.exports = router
