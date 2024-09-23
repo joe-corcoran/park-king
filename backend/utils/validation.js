@@ -71,8 +71,31 @@ const validateReview = [
   handleValidationErrors
 ];
 
+const validateBooking = [
+  check('startDate')
+      .isDate()
+      .withMessage('Start date must be a valid date')
+      .custom((value, { req }) => {
+          if (new Date(value) < new Date()) {
+              throw new Error('Start date cannot be in the past');
+          }
+          return true;
+      }),
+  check('endDate')
+      .isDate()
+      .withMessage('End date must be a valid date')
+      .custom((value, { req }) => {
+          if (new Date(value) <= new Date(req.body.startDate)) {
+              throw new Error('End date must be after start date');
+          }
+          return true;
+      }),
+  handleValidationErrors
+];
+
 module.exports = {
   handleValidationErrors,
   validateSpot,
   validateReview,
+  validateBooking
 };

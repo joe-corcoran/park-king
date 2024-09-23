@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   console.log("Defining User model...");
   class User extends Model {
     static associate(models) {
-      console.log("Associating User model with others...");
-
+      User.hasMany(models.Review, { foreignKey: 'userId' });
+      User.hasMany(models.Booking, { foreignKey: 'userId' });
     }
   }
 

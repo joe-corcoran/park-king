@@ -6,8 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   console.log("Creating a spot...");
   class Spot extends Model {
     static associate(models) {
-      Spot.belongsTo(models.User, { foreignKey: "ownerId", as: "Owner" });
-    }
+        Spot.belongsTo(models.User, { foreignKey: "ownerId", as: "Owner" });
+        Spot.hasMany(models.Review, { foreignKey: 'spotId' });
+        Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
+      }
   }
 
   Spot.init(
