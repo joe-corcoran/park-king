@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, Booking, SpotImage } = require('../../db/models');
+const { Spot, Review, Booking, SpotImage, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateSpot, validateReview, validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -179,6 +179,40 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         url: newImage.url,
         preview: newImage.preview
       });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Get all Spots owned by the Current User
+router.get('/current', requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+  
+    try {
+      const spots = await Spot.findAll({
+        where: { ownerId: userId },
+        include: [
+          {
+            model: SpotImage,
+            attributes: ['url'],
+            where: { preview: true },
+            required: false
+          },
+          {
+            model: Review,
+            attributes: []
+          }
+        ],
+        attributes: {
+          include: [
+            [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
+            [sequelize.col('SpotImages.url'), 'previewImage']
+          ]
+        },
+        group: ['Spot.id', 'SpotImages.url']
+      });
+  
+      res.json({ Spots: spots });
     } catch (error) {
       next(error);
     }
