@@ -5,11 +5,14 @@
 const { Model, Validator } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  console.log("Defining User model...");
   class User extends Model {
     static associate(models) {
+<<<<<<< HEAD
+
+=======
       User.hasMany(models.Review, { foreignKey: 'userId' });
       User.hasMany(models.Booking, { foreignKey: 'userId' });
+>>>>>>> bcd5b1dc63822f46aad951bb2d7753dc73b17805
     }
   }
 
