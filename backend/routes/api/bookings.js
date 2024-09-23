@@ -1,10 +1,11 @@
 const express = require('express');
-const { Booking, Spot, SpotImage, User } = require('../../db/models');
+const { Booking, Spot, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateBooking } = require('../../utils/validation');
 
 const router = express.Router();
 
+//Book a spot
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const spotId = parseInt(req.params.spotId);
@@ -103,7 +104,5 @@ router.get('/current', requireAuth, async (req, res, next) => {
       next(error);
     }
   });
-  
-  module.exports = router;
-  
+
 module.exports = router;
