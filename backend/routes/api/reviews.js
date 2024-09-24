@@ -1,5 +1,5 @@
 const express = require('express');
-const { Review, Spot, User } = require('../../db/models');
+const { Review, ReviewImage, Spot, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateReview } = require('../../utils/validation');
 
@@ -99,31 +99,50 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
   }
 });
 
+//Add image to review
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
-  const { url } = req.body;
-  const reviewId = parseInt(req.params.reviewId);
-
-  try {
-    const review = await Review.findByPk(reviewId);
-    if (!review) {
-      return res.status(404).json({ message: "Review couldn't be found" });
+    const { url } = req.body;
+    const { reviewId } = req.params;
+    const userId = req.user.id;
+  
+    try {
+      // Check if the review exists
+      const review = await Review.findByPk(reviewId);
+  
+      if (!review) {
+        return res.status(404).json({ message: "Review couldn't be found" });
+      }
+  
+      // Check if the current user is the owner of the review
+      if (review.userId !== userId) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+  
+      // Check if the review already has 10 images
+      const imageCount = await ReviewImage.count({ where: { reviewId } });
+  
+      if (imageCount >= 10) {
+        return res.status(403).json({
+          message: 'Maximum number of images for this resource was reached',
+        });
+      }
+  
+      // Create the new ReviewImage
+      const newImage = await ReviewImage.create({
+        reviewId,
+        url,
+      });
+  
+      // Return only the id and url as per requirements
+      res.status(201).json({
+        id: newImage.id,
+        url: newImage.url,
+      });
+    } catch (error) {
+      next(error);
     }
-
-    if (review.userId !== req.user.id) {
-      return res.status(403).json({ message: "Not authorized to add images to this review" });
-    }
-
-    const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
-    if (reviewImagesCount >= 10) {
-      return res.status(403).json({ message: "Maximum number of images for this review reached" });
-    }
-
-    const newImage = await ReviewImage.create({ reviewId, url });
-    res.status(201).json(newImage);
-  } catch (err) {
-    next(err);
-  }
-});
+  });
+  
 
 
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
