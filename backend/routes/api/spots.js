@@ -154,6 +154,63 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     }
   });
 
+  // Get all Spots owned by the Current User
+router.get('/current', requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+  
+    try {
+      const spots = await Spot.findAll({
+        where: { ownerId: userId },
+        attributes: {
+          include: [
+            // Calculate avgRating
+            [
+              sequelize.literal(`(
+                SELECT AVG("Reviews"."stars")
+                FROM "Reviews"
+                WHERE "Reviews"."spotId" = "Spot"."id"
+              )`),
+              'avgRating'
+            ]
+          ]
+        },
+        include: [
+          {
+            model: SpotImage,
+            as: 'SpotImages',
+            attributes: ['url', 'preview'],
+            required: false
+          }
+        ]
+      });
+  
+      // Process spots to include previewImage
+      const spotsList = spots.map(spot => {
+        const spotJSON = spot.toJSON();
+  
+
+        const previewImage = spotJSON.SpotImages.find(image => image.preview);
+        spotJSON.previewImage = previewImage ? previewImage.url : null;
+  
+      
+        delete spotJSON.SpotImages;
+  
+        if (spotJSON.avgRating) {
+          spotJSON.avgRating = Number(spotJSON.avgRating).toFixed(1);
+        } else {
+          spotJSON.avgRating = null;
+        }
+  
+        return spotJSON;
+      });
+  
+      res.json({ Spots: spotsList });
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+
  // Get all Spots with Query Filters
 router.get('/', async (req, res, next) => {
     let {
@@ -167,11 +224,9 @@ router.get('/', async (req, res, next) => {
       maxPrice
     } = req.query;
   
-    // Convert to integers
     page = parseInt(page);
     size = parseInt(size);
   
-    // Validation
     const errors = {};
     if (isNaN(page) || page < 1) {
       errors.page = "Page must be greater than or equal to 1";
