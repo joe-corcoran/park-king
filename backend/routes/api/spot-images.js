@@ -1,4 +1,4 @@
-// routes/api/spot-images.js
+
 
 const express = require('express');
 const { SpotImage, Spot } = require('../../db/models');

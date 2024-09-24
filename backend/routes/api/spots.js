@@ -86,12 +86,10 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         ],
       });
   
-      // Process the reviews to include previewImage and format the response
       const reviewsList = await Promise.all(
         reviews.map(async (review) => {
           const reviewJSON = review.toJSON();
   
-          // Fetch the preview image for the spot
           const previewImage = await SpotImage.findOne({
             where: {
               spotId: reviewJSON.spotId,
@@ -125,7 +123,6 @@ router.get('/:spotId/reviews', async (req, res, next) => {
   });
 
 
-//add a booking to a spot
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const spotId = parseInt(req.params.spotId);

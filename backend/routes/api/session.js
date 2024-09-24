@@ -1,4 +1,4 @@
-// backend/routes/api/session.js
+
 const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
@@ -46,7 +46,7 @@ router.post(
       return next(err);
     }
 
-// Include firstName and lastName in the safeUser object
+// Include firstName and lastName 
 const safeUser = {
   id: user.id,
   firstName: user.firstName,
