@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, Booking, SpotImage, User, sequelize } = require('../../db/models');
+const { Spot, Review, Booking, SpotImage, ReviewImage, User, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateSpot, validateReview, validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -60,6 +60,70 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         next(err);
     }
 });
+
+// Get all reviews by spot id
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spotId = parseInt(req.params.spotId);
+  
+    try {
+      // Check if the spot exists
+      const spot = await Spot.findByPk(spotId);
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+  
+      const reviews = await Review.findAll({
+        where: { spotId },
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName'],
+          },
+          {
+            model: ReviewImage,
+            attributes: ['id', 'url'],
+          },
+        ],
+      });
+  
+      // Process the reviews to include previewImage and format the response
+      const reviewsList = await Promise.all(
+        reviews.map(async (review) => {
+          const reviewJSON = review.toJSON();
+  
+          // Fetch the preview image for the spot
+          const previewImage = await SpotImage.findOne({
+            where: {
+              spotId: reviewJSON.spotId,
+              preview: true,
+            },
+            attributes: ['url'],
+          });
+  
+          reviewJSON.Spot = {
+            id: spot.id,
+            ownerId: spot.ownerId,
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: spot.lat,
+            lng: spot.lng,
+            name: spot.name,
+            price: spot.price,
+            previewImage: previewImage ? previewImage.url : null,
+          };
+  
+          return reviewJSON;
+        })
+      );
+  
+      res.json({ Reviews: reviewsList });
+    } catch (err) {
+      next(err);
+    }
+  });
+
 
 //add a booking to a spot
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
