@@ -58,6 +58,7 @@ const validateSpot = [
   .withMessage(' Price per day must be a positive number'),
 
   handleValidationErrors
+  
 ];
 
 const validateReview = [
