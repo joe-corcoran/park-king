@@ -1,0 +1,36 @@
+/* frontend/src/components/LoginFormPage/LoginForm.css */
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  label {
+    margin: 10px 0;
+  }
+  
+  input {
+    padding: 5px;
+    margin-top: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ff5a5f;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #ff7e82;
+  }
+  
+  ul {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+  }
