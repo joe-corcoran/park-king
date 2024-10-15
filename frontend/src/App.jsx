@@ -1,12 +1,11 @@
-// frontend/src/App.js
+// frontend/src/App.jsx
 
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from 'react-router-dom';
 import Navigation from "./components/Navigation/Navigation";
-import LoginFormPage from "./components/LoginFormPage";
-import SignupFormPage from "./components/SignupFormPage/SignupFormPage";
 import * as sessionActions from "./store/session";
+import { Modal } from './components/context/Modal';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,10 +20,9 @@ function App() {
       {isLoaded && (
         <Routes>
           <Route path="/" element={<h1>Welcome to Park King</h1>} />
-          <Route path="/login" element={<LoginFormPage />} />
-          <Route path="/signup" element={<SignupFormPage />} />
         </Routes>
       )}
+      <Modal /> {}
     </>
   );
 }
