@@ -1,0 +1,20 @@
+/* src/components/ReviewItem/ReviewItem.css */
+
+.review-item {
+    margin-bottom: 20px;
+  }
+  
+  .review-item h3 {
+    margin: 0;
+  }
+  
+  .review-date {
+    color: #999;
+    font-size: 14px;
+  }
+  
+  .review-item p {
+    font-size: 16px;
+    color: #333;
+  }
+  

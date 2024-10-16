@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getSpotDetails } from '../../store/spots';
 import './SpotDetails.css';
+import { getReviewsBySpotId } from '../../store/reviews';
+import ReviewsList from '../ReviewsList/ReviewsList';
 
 const SpotDetails = () => {
   const { spotId } = useParams();
@@ -13,6 +15,9 @@ const SpotDetails = () => {
   const user = useSelector((state) => state.session.user);
 
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const reviews = useSelector((state) =>
+    Object.values(state.reviews.spotReviews)
+  );
 
   useEffect(() => {
     dispatch(getSpotDetails(spotId))
@@ -20,6 +25,7 @@ const SpotDetails = () => {
       .catch((err) => {
         // Handle errors, e.g., set an error state
       });
+      dispatch(getReviewsBySpotId(spotId));
   }, [dispatch, spotId]);
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -53,16 +59,36 @@ const SpotDetails = () => {
       <div className="spot-info">
         <div className="spot-host">
           <h2>
-            Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+            Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
           </h2>
           <p>{spot.description}</p>
         </div>
         <div className="spot-callout">
           <div className="price">${spot.price} / night</div>
-          <div className="reserve-button" onClick={() => alert('Feature coming soon')}>
+          <div className="spot-rating">
+            <i className="fas fa-star"></i>{' '}
+            {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
+            {' · '}
+            {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+          </div>
+          <div
+            className="reserve-button"
+            onClick={() => alert('Feature coming soon')}
+          >
             Reserve
           </div>
         </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="reviews-section">
+        <h2>
+          <i className="fas fa-star"></i>{' '}
+          {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
+          {' · '}
+          {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+        </h2>
+        <ReviewsList reviews={reviews} spot={spot} user={user} />
       </div>
     </div>
   );

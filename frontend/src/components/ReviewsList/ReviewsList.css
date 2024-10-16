@@ -1,0 +1,11 @@
+/* src/components/ReviewsList/ReviewsList.css */
+
+.reviews-list {
+    margin-top: 20px;
+  }
+  
+  .reviews-list p {
+    font-size: 16px;
+    color: #555;
+  }
+  
