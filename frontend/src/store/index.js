@@ -7,7 +7,7 @@ import logger from 'redux-logger'; // Import logger at the top
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  spots: spotsReducer, // Add spotsReducer here
+  spots: spotsReducer,
 });
 
 let enhancer;

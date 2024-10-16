@@ -7,7 +7,7 @@ import './SpotsIndex.css';
 
 const SpotsIndex = () => {
   const dispatch = useDispatch();
-  const spots = useSelector((state) => Object.values(state.spots));
+  const spots = useSelector((state) => Object.values(state.spots.allSpots));
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [error, setError] = React.useState(null);
 

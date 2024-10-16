@@ -7,6 +7,8 @@ import * as sessionActions from "./store/session";
 import SpotsIndex from './components/SpotsIndex/SpotsIndex';
 import { Modal } from './components/context/Modal'; // Keep if Modal is used
 import './App.css'; // Keep if App.css is needed
+import SpotDetails from './components/SpotDetails/SpotDetails';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ function App() {
       {isLoaded && (
         <Routes>
           <Route path="/" element={<SpotsIndex />} />
+          <Route path="/spots/:spotId" element={<SpotDetails />} />
           {/* Add other routes here */}
         </Routes>
       )}
