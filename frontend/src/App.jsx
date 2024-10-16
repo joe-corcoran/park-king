@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <div className="welcome-message">
-              <h1>Welcome to Park King</h1>
+              <h1>Parking, reimagined.</h1>
             </div>
           } />
         </Routes>
