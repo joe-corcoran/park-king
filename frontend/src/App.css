@@ -1,39 +1,167 @@
-.App {
-  text-align: center;
+/* App.css */
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f4f4f4;
+  --text-color: #333;
+  --error-color: #e74c3c;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.App-header {
-  min-height: 100vh;
+/* Navigation Styles */
+nav {
+  background-color: var(--primary-color);
+  padding: 1rem;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+nav ul li {
+  display: inline;
+  margin-right: 20px;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--secondary-color);
+}
+
+/* Button Styles */
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Form Styles */
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+form h1 {
+  text-align: center;
+  color: var(--primary-color);
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Error message styles */
+.error {
+  color: var(--error-color);
+  margin-bottom: 10px;
+}
+
+/* Profile dropdown styles */
+.profile-dropdown {
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-dropdown li {
+  margin-bottom: 10px;
+}
+
+.profile-dropdown button {
+  width: 100%;
+  text-align: left;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
   }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+}
+
+/* Add focus styles for better keyboard navigation */
+a:focus,
+button:focus,
+input:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Improve color contrast for better readability */
+.text-contrast {
+  color: #fff;
+  background-color: #333;
+  padding: 5px 10px;
+  border-radius: 4px;
 }

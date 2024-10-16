@@ -1,7 +1,125 @@
+/* Navigation.css */
+:root {
+  --primary-color: #1a2a3a; /* Dark blue */
+  --secondary-color: #4a5a6a; /* Lighter blue */
+  --background-color: #f0f2f5; /* Light grey background */
+  --text-color: #333;
+  --border-color: #d1d5db;
+}
+
+.main-header {
+  background-color: var(--primary-color);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.main-header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-header a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.profile-button {
+  position: relative;
+}
+
+.profile-button button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: white;
+}
+
 .profile-dropdown {
-    position: absolute;
-  }
-  
-  .hidden {
-    display: none;
-  }
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.profile-dropdown li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.profile-dropdown button,
+.profile-dropdown .menu-item {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 0;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-dropdown button:hover,
+.profile-dropdown .menu-item:hover {
+  background-color: var(--background-color);
+}
+
+.welcome-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.profile-dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-dropdown li {
+  padding: 5px 0;
+}
+
+.profile-dropdown .menu-item button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  color: #1a2a3a;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.profile-dropdown .menu-item button:hover {
+  background-color: #f0f2f5;
+  color: #4a5a6a;
+}
