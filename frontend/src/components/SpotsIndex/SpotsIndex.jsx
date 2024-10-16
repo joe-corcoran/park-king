@@ -1,0 +1,37 @@
+// src/components/SpotsIndex/SpotsIndex.jsx
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllSpots } from '../../store/spots';
+import SpotTile from '../SpotTile/SpotTile';
+import './SpotsIndex.css';
+
+const SpotsIndex = () => {
+  const dispatch = useDispatch();
+  const spots = useSelector((state) => Object.values(state.spots));
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  useEffect(() => {
+    dispatch(getAllSpots())
+      .then(() => setIsLoaded(true))
+      .catch((err) => setError(err));
+  }, [dispatch]);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="spots-index">
+      {spots.map((spot) => (
+        <SpotTile key={spot.id} spot={spot} />
+      ))}
+    </div>
+  );
+};
+
+export default SpotsIndex;

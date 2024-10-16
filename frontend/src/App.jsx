@@ -1,15 +1,16 @@
 // frontend/src/App.jsx
-
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'; // Remove Router from import
 import Navigation from "./components/Navigation/Navigation";
 import * as sessionActions from "./store/session";
-import { Modal } from './components/context/Modal';
+// Remove Modal import if not used
+import SpotsIndex from './components/SpotsIndex/SpotsIndex';
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -19,10 +20,11 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Routes>
-          <Route path="/" element={<h1>Welcome to Park King</h1>} />
+          <Route path="/" element={<SpotsIndex />} />
+          {/* Add other routes here */}
         </Routes>
       )}
-      <Modal /> {}
+      {/* Remove Modal here if it's not needed globally */}
     </>
   );
 }

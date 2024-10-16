@@ -1,0 +1,9 @@
+/* src/components/SpotsIndex/SpotsIndex.css */
+.spots-index {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  

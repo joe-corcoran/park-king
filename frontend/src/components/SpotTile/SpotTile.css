@@ -1,0 +1,36 @@
+/* src/components/SpotTile/SpotTile.css */
+.spot-tile {
+    width: 250px;
+    cursor: pointer;
+  }
+  
+  .spot-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .spot-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .spot-location {
+    font-weight: bold;
+  }
+  
+  .spot-rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .spot-rating i {
+    color: #ff5a5f;
+    margin-right: 5px;
+  }
+  
+  .spot-price {
+    margin-top: 5px;
+  }
+  
