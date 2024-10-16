@@ -1,0 +1,49 @@
+/* src/components/SpotForm/SpotForm.css */
+
+.spot-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .spot-form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .spot-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .spot-form-container label {
+    margin-bottom: 10px;
+  }
+  
+  .spot-form-container input,
+  .spot-form-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  .spot-form-container button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ff5a5f;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .spot-form-container button:hover {
+    background-color: #e04e4e;
+  }
+  
+  .errors {
+    color: red;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  

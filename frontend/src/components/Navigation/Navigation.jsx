@@ -5,22 +5,31 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logoImage from '../../images/logo.png'; // Import your logo image
+import logoImage from '../../images/logo.png'; 
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <header className="main-header">
-      <nav>
+    <nav className="navigation">
+      <ul>
+        <li>
         <NavLink to="/" className="logo-link">
           <img src={logoImage} alt="Park King Logo" className="logo-image" />
         </NavLink>
-        {isLoaded && (
-          <ProfileButton user={sessionUser} />
+        </li>
+        {sessionUser && (
+          <li>
+            <NavLink to="/spots/new">Create a New Spot</NavLink>
+          </li>
         )}
-      </nav>
-    </header>
+        {isLoaded && (
+          <li>
+            <ProfileButton user={sessionUser} />
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 }
 

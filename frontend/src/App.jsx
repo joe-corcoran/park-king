@@ -5,9 +5,11 @@ import { Routes, Route } from 'react-router-dom';
 import Navigation from "./components/Navigation/Navigation";
 import * as sessionActions from "./store/session";
 import SpotsIndex from './components/SpotsIndex/SpotsIndex';
-import { Modal } from './components/context/Modal'; // Keep if Modal is used
-import './App.css'; // Keep if App.css is needed
+import { Modal } from './components/context/Modal';
+import './App.css'; 
 import SpotDetails from './components/SpotDetails/SpotDetails';
+import SpotForm from './components/SpotForm/SpotForm';
+
 
 
 function App() {
@@ -25,10 +27,11 @@ function App() {
         <Routes>
           <Route path="/" element={<SpotsIndex />} />
           <Route path="/spots/:spotId" element={<SpotDetails />} />
-          {/* Add other routes here */}
+          <Route path="/spots/new" element={<SpotForm />} />
+          {/* new routes */}
         </Routes>
       )}
-      <Modal /> {/* Keep if Modal is needed globally */}
+      <Modal /> {/* global modal */}
     </>
   );
 }
