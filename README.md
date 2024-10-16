@@ -1,6 +1,6 @@
 # auth-me-project
 Repo for Auth Me project
-# StaySphere
+# Parkly
 
 ## Database Schema Design
 
