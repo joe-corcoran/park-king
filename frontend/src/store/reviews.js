@@ -23,22 +23,37 @@ export const getReviewsBySpotId = (spotId) => async (dispatch) => {
   }
 };
 
-// For future use: Adding a new review
-export const createReview = (spotId, reviewData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(reviewData),
-  });
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(addReview(data));
-    return data;
-  } else {
-    // Handle errors
-  }
-};
+//Adding a new review
+import { getSpotDetails } from './spots';
 
+export const createReview = (spotId, reviewData) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(reviewData),
+    });
+  
+    if (response.ok) {
+      const newReview = await response.json();
+      // Fetch the user data to include in the review
+      const userResponse = await csrfFetch('/api/session');
+      const userData = await userResponse.json();
+      newReview.User = {
+        id: userData.user.id,
+        firstName: userData.user.firstName,
+        lastName: userData.user.lastName,
+      };
+      dispatch(addReview(newReview));
+      dispatch(getSpotDetails(spotId));
+      return newReview;
+    } else {
+      const errors = await response.json();
+      throw errors;
+    }
+  };
+
+
+  //reducer
 const initialState = {
     spotReviews: {},
   };

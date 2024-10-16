@@ -1,11 +1,15 @@
 /* App.css */
 
+
 :root {
-  --primary-color: #0a642a;
-  --secondary-color: #2ecc71;
-  --background-color: #f4f4f4;
-  --text-color: #333;
-  --error-color: #e74c3c;
+  --dark-green: #386641;
+  --medium-green: #6A994E;
+  --light-green: #A7C957;
+  --cream: #F2E8CF;
+  --red: #BC4749;
+  --white: #ffffff;
+  --light-gray: #f0f0f0;
+  --black: #000000;
 }
 
 body {

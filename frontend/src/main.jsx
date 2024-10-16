@@ -8,7 +8,7 @@ import './index.css';
 import configureStore from './store'; // Ensure this imports from src/store/index.js
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
-import { ModalProvider } from './components/context/Modal';
+import { ModalProvider, Modal } from './components/context/Modal';
 
 const store = configureStore();
 

@@ -1,0 +1,69 @@
+/* src/components/ReviewFormModal/ReviewFormModal.css */
+
+.review-form-modal {
+    padding: 20px;
+    max-width: 500px;
+    background-color: #F2E8CF; /* Background color */
+  }
+  
+  .review-form-modal h2 {
+    margin-bottom: 20px;
+    color: #386641; /* Heading color */
+  }
+  
+  .review-form-modal .errors {
+    color: #BC4749; /* Error text color */
+    list-style: none;
+    padding: 0;
+  }
+  
+  .review-form-modal form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .review-form-modal textarea {
+    resize: none;
+    height: 100px;
+    margin-bottom: 20px;
+    border: 1px solid #6A994E; /* Border color */
+  }
+  
+  .stars-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .star-rating {
+    display: flex;
+  }
+  
+  .star-rating button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+  }
+  
+  .star-rating .on .star {
+    color: #A7C957; /* Active star color */
+  }
+  
+  .star-rating .off .star {
+    color: #ccc; /* Inactive star color */
+  }
+  
+  .review-form-modal button[type='submit'] {
+    padding: 10px;
+    background-color: #386641; /* Button background */
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .review-form-modal button[type='submit']:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
