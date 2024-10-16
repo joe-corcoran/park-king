@@ -27,9 +27,14 @@ const SpotsIndex = () => {
 
   return (
     <div className="spots-index">
-      {spots.map((spot) => (
-        <SpotTile key={spot.id} spot={spot} />
-      ))}
+      <div className="welcome-message">
+        <h1>Parking, reimagined.</h1>
+      </div>
+      <div className="spots-list">
+        {spots.map((spot) => (
+          <SpotTile key={spot.id} spot={spot} />
+        ))}
+      </div>
     </div>
   );
 };

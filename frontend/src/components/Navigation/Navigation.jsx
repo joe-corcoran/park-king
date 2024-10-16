@@ -1,50 +1,26 @@
-//frontend/src/components/Navigation/Navigation.jsx
+// frontend/src/components/Navigation/Navigation.jsx
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import OpenModalButton from '../OpenModalButton/OpenModalButton';
-import LoginFormModal from '../LoginFormPage/LoginFormModal';
-import SignupFormModal from '../SignupFormPage/SignupFormModal';
 import './Navigation.css';
+import logoImage from '../../images/logo.png'; // Import your logo image
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    );
-  } else {
-    sessionLinks = (
-      <>
-        <li>
-          <OpenModalButton
-            buttonText="Log In"
-            modalComponent={<LoginFormModal />}
-          />
-        </li>
-        <li>
-          <OpenModalButton
-            buttonText="Sign Up"
-            modalComponent={<SignupFormModal />}
-          />
-        </li>
-      </>
-    );
-  }
-
   return (
-    <ul>
-      <li>
-      <NavLink exact to="/">Home</NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+    <header className="main-header">
+      <nav>
+        <NavLink to="/" className="logo-link">
+          <img src={logoImage} alt="Park King Logo" className="logo-image" />
+        </NavLink>
+        {isLoaded && (
+          <ProfileButton user={sessionUser} />
+        )}
+      </nav>
+    </header>
   );
 }
 

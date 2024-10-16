@@ -1,11 +1,12 @@
 // frontend/src/App.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Routes, Route } from 'react-router-dom'; // Remove Router from import
+import { Routes, Route } from 'react-router-dom';
 import Navigation from "./components/Navigation/Navigation";
 import * as sessionActions from "./store/session";
-// Remove Modal import if not used
 import SpotsIndex from './components/SpotsIndex/SpotsIndex';
+import { Modal } from './components/context/Modal'; // Keep if Modal is used
+import './App.css'; // Keep if App.css is needed
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function App() {
           {/* Add other routes here */}
         </Routes>
       )}
-      {/* Remove Modal here if it's not needed globally */}
+      <Modal /> {/* Keep if Modal is needed globally */}
     </>
   );
 }
