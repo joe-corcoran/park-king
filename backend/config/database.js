@@ -2,7 +2,7 @@ const config = require('./index');
 
 module.exports = {
   development: {
-    storage: config.dbFile,
+    storage: process.env.DB_FILE,
     dialect: "sqlite",
     seederStorage: "sequelize",
     logQueryParameters: true,
@@ -65,3 +65,4 @@ production_url_ssl: {
   }
 }
 };
+console.log("DB_FILE:", process.env.DB_FILE);
