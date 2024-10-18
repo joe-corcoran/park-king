@@ -1,4 +1,5 @@
-// ProfileButton.jsx
+// src/components/Navigation/ProfileButton.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
@@ -6,6 +7,8 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormPage/LoginFormModal';
 import SignupFormModal from '../SignupFormPage/SignupFormModal';
+import { NavLink } from 'react-router-dom'; // Ensure NavLink is imported
+//import './ProfileButton.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -26,14 +29,13 @@ function ProfileButton({ user }) {
       }
     };
 
-    // Add a small delay before adding the event listener
     const timeoutId = setTimeout(() => {
       document.addEventListener('click', closeMenu);
     }, 0);
 
     return () => {
       clearTimeout(timeoutId);
-      document.removeEventListener("click", closeMenu);
+      document.removeEventListener('click', closeMenu);
     };
   }, [showMenu]);
 
@@ -55,8 +57,16 @@ function ProfileButton({ user }) {
           {user ? (
             <>
               <li>{user.username}</li>
-              <li>{user.firstName} {user.lastName}</li>
+              <li>
+                {user.firstName} {user.lastName}
+              </li>
               <li>{user.email}</li>
+              {/* Added Manage Spots Menu Item */}
+              <li>
+                <NavLink to="/spots/current" onClick={closeMenu}>
+                  Manage Spots
+                </NavLink>
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

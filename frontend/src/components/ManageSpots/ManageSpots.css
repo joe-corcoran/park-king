@@ -1,0 +1,64 @@
+/* src/components/ManageSpots/ManageSpots.css */
+
+.manage-spots {
+    padding: 20px;
+  }
+  
+  .manage-spots h1 {
+    margin-bottom: 20px;
+  }
+  
+  .create-spot-button {
+    padding: 10px 20px;
+    background-color: #386641;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .create-spot-button:hover {
+    background-color: #6A994E;
+  }
+  
+  .spots-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .spot-card {
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .spot-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .spot-info {
+    padding: 10px;
+  }
+  
+  .spot-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .spot-actions button {
+    padding: 5px 10px;
+    background-color: #386641;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .spot-actions button:hover {
+    background-color: #6A994E;
+  }
+  

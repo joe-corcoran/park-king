@@ -9,6 +9,8 @@ import { Modal } from './components/context/Modal';
 import './App.css'; 
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import SpotForm from './components/SpotForm/SpotForm';
+import EditSpotForm from './components/EditSpotForm/EditSpotForm';
+import ManageSpots from './components/ManageSpots/ManageSpots';
 
 
 
@@ -28,6 +30,8 @@ function App() {
           <Route path="/" element={<SpotsIndex />} />
           <Route path="/spots/:spotId" element={<SpotDetails />} />
           <Route path="/spots/new" element={<SpotForm />} />
+          <Route path="/spots/current" element={<ManageSpots />} /> 
+          <Route path="/spots/:spotId/edit" element={<EditSpotForm />} />
           {/* new routes */}
         </Routes>
       )}
