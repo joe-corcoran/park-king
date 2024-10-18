@@ -1,22 +1,24 @@
 /* App.css */
 
-
+/* Color Variables */
 :root {
-  --dark-green: #386641;
-  --medium-green: #6A994E;
-  --light-green: #A7C957;
-  --cream: #F2E8CF;
-  --red: #BC4749;
-  --white: #ffffff;
-  --light-gray: #f0f0f0;
-  --black: #000000;
+  --vibrant-green: #1AAB76; /* Main color */
+  --light-green: #F0F4EF; /* Light background */
+  --crayola-red: #E84855; /* For reds */
+  --indigo: #344966; /* Supporting text */
+  --dark-blue: #0D1821; /* Supporting text */
+  --white: #FFFFFF; /* Pure white */
+  --light-gray: #F0F2F5; /* Light gray */
+  --gray: #D1D5DB; /* Gray for borders and backgrounds */
+  --black: #000000; /* Pure black */
 }
 
+/* Global Styles */
 body {
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
+  color: var(--indigo);
+  background-color: var(--light-green);
   margin: 0;
   padding: 0;
 }
@@ -27,126 +29,16 @@ body {
   padding: 0 20px;
 }
 
-/* Navigation Styles */
-nav {
-  background-color: var(--primary-color);
-  padding: 1rem;
-}
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 20px;
-}
-
-nav a {
-  color: white;
+a {
+  color: inherit;
   text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
 }
 
-nav a:hover {
-  color: var(--secondary-color);
-}
-
-/* Button Styles */
 button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-family: 'Arial', sans-serif;
 }
 
-button:hover {
-  background-color: var(--secondary-color);
-}
-
-/* Form Styles */
-form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  margin: 20px auto;
-}
-
-form h1 {
-  text-align: center;
-  color: var(--primary-color);
-}
-
-form label {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--text-color);
-}
-
-form input[type="text"],
-form input[type="password"],
-form input[type="email"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-form button[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-form button[type="submit"]:hover {
-  background-color: var(--secondary-color);
-}
-
-/* Error message styles */
-.error {
-  color: var(--error-color);
-  margin-bottom: 10px;
-}
-
-/* Profile dropdown styles */
-.profile-dropdown {
-  position: absolute;
-  right: 20px;
-  top: 60px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.profile-dropdown li {
-  margin-bottom: 10px;
-}
-
-.profile-dropdown button {
-  width: 100%;
-  text-align: left;
-}
-
-/* Accessibility improvements */
+/* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -154,18 +46,58 @@ form button[type="submit"]:hover {
   }
 }
 
-/* Add focus styles for better keyboard navigation */
 a:focus,
 button:focus,
-input:focus {
-  outline: 2px solid var(--primary-color);
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--vibrant-green);
   outline-offset: 2px;
 }
 
-/* Improve color contrast for better readability */
-.text-contrast {
-  color: #fff;
-  background-color: #333;
-  padding: 5px 10px;
-  border-radius: 4px;
+/* Error Message Styles */
+.error {
+  color: var(--crayola-red);
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* Button Styles */
+.button {
+  background-color: var(--vibrant-green);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--dark-blue);
+}
+
+.button.red {
+  background-color: var(--crayola-red);
+}
+
+.button.red:hover {
+  background-color: #c0392b;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.hidden {
+  display: none;
 }

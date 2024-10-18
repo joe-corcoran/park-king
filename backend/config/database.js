@@ -65,4 +65,3 @@ production_url_ssl: {
   }
 }
 };
-console.log("DB_FILE:", process.env.DB_FILE);

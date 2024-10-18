@@ -1,20 +1,18 @@
-// src/components/SpotForm/SpotForm.jsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { createSpot } from '../../store/spots';
 import './SpotForm.css';
 
 const SpotForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Use useNavigate
+  const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
 
-  // Form state
   const [country, setCountry] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [stateName, setStateName] = useState(''); // Renamed to avoid conflict with 'state'
+  const [stateName, setStateName] = useState('');
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [description, setDescription] = useState('');
@@ -22,48 +20,48 @@ const SpotForm = () => {
   const [price, setPrice] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [imageUrls, setImageUrls] = useState(['', '', '', '']);
-
-  // Error state
-  const [errors, setErrors] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   if (!sessionUser) {
-    navigate('/'); // Use navigate instead of history.push
-    return null; // Return null to prevent rendering
+    navigate('/');
+    return null;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Client-side validation
+    setSubmitted(true);
     const validationErrors = [];
+
+    // Validation for required fields
     if (!country) validationErrors.push('Country is required');
     if (!address) validationErrors.push('Address is required');
     if (!city) validationErrors.push('City is required');
     if (!stateName) validationErrors.push('State is required');
     if (!description || description.length < 30)
-      validationErrors.push('Description needs a minimum of 30 characters');
+      validationErrors.push('Description needs 30 or more characters');
     if (!name) validationErrors.push('Name is required');
     if (!price || isNaN(price)) validationErrors.push('Price per night is required');
     if (!previewImage || !isValidUrl(previewImage))
-      validationErrors.push('Preview Image URL is invalid or empty');
+      validationErrors.push('Preview Image is required');
+    if (!lat) validationErrors.push('Latitude is required');
+    if (!lng) validationErrors.push('Longitude is required');
 
+    // Image URL validation
     imageUrls.forEach((url, index) => {
       if (url && !isValidUrl(url)) {
-        validationErrors.push(`Image URL ${index + 1} is invalid`);
+        validationErrors.push(`Image URL ${index + 1} needs to end in png or jpg (or jpeg)`);
       }
     });
 
     if (validationErrors.length > 0) {
-      setErrors(validationErrors);
       return;
     }
 
-    // Prepare data
     const spotData = {
       country,
       address,
       city,
-      state: stateName, // Use stateName here
+      state: stateName,
       lat: parseFloat(lat) || 0,
       lng: parseFloat(lng) || 0,
       description,
@@ -74,22 +72,18 @@ const SpotForm = () => {
     const imageUrlsArray = [previewImage, ...imageUrls.filter((url) => url)];
 
     try {
-      // Dispatch createSpot thunk action
       const newSpot = await dispatch(createSpot(spotData, imageUrlsArray));
-      // Redirect to the new spot's detail page
-      navigate(`/spots/${newSpot.id}`); // Use navigate
+      navigate(`/spots/${newSpot.id}`);
     } catch (res) {
-      // Handle server-side errors
       const data = await res.json();
       if (data && data.errors) setErrors(Object.values(data.errors));
     }
   };
 
-  // Helper function to validate URLs
   const isValidUrl = (url) => {
     try {
-      new URL(url);
-      return true;
+      const parsedUrl = new URL(url);
+      return parsedUrl.pathname.match(/\.(png|jpg|jpeg)$/);
     } catch (err) {
       return false;
     }
@@ -99,119 +93,140 @@ const SpotForm = () => {
     <div className="spot-form-container">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-        {errors.length > 0 && (
-          <ul className="errors">
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-        )}
-
-        <label>
-          Country
+        {/* Country */}
+        <div className="inline-field">
+          <label>Country</label>
           <input
             type="text"
+            placeholder="Enter your country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            required
           />
-        </label>
+          {submitted && !country && <span className="error-inline">Country is required</span>}
+        </div>
 
-        <label>
-          Street Address
+        {/* Street Address */}
+        <div className="inline-field">
+          <label>Street Address</label>
           <input
             type="text"
+            placeholder="Enter street address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            required
           />
-        </label>
+          {submitted && !address && <span className="error-inline">Address is required</span>}
+        </div>
 
-        <label>
-          City
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-        </label>
+        {/* City and State */}
+        <div className="inline-fields">
+          <div className="field">
+            <label>City</label>
+            <input
+              type="text"
+              placeholder="Enter city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            {submitted && !city && <span className="error-inline">City is required</span>}
+          </div>
 
-        <label>
-          State
-          <input
-            type="text"
-            value={stateName}
-            onChange={(e) => setStateName(e.target.value)}
-            required
-          />
-        </label>
+          <div className="field">
+            <label>State</label>
+            <input
+              type="text"
+              placeholder="Enter state"
+              value={stateName}
+              onChange={(e) => setStateName(e.target.value)}
+            />
+            {submitted && !stateName && <span className="error-inline">State is required</span>}
+          </div>
+        </div>
 
-        <label>
-          Latitude
-          <input
-            type="text"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-          />
-        </label>
+        {/* Latitude and Longitude */}
+        <div className="inline-fields">
+          <div className="field">
+            <label>Latitude</label>
+            <input
+              type="text"
+              placeholder="Enter latitude"
+              value={lat}
+              onChange={(e) => setLat(e.target.value)}
+            />
+            {submitted && !lat && <span className="error-inline">Latitude is required</span>}
+          </div>
 
-        <label>
-          Longitude
-          <input
-            type="text"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-          />
-        </label>
+          <div className="field">
+            <label>Longitude</label>
+            <input
+              type="text"
+              placeholder="Enter longitude"
+              value={lng}
+              onChange={(e) => setLng(e.target.value)}
+            />
+            {submitted && !lng && <span className="error-inline">Longitude is required</span>}
+          </div>
+        </div>
 
+        {/* Description */}
         <label>
           Description
           <textarea
+            placeholder="Describe your spot (at least 30 characters)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            minLength={30}
-            required
           ></textarea>
+          {submitted && description.length < 30 && (
+            <span className="error">Description needs 30 or more characters</span>
+          )}
         </label>
 
+        {/* Name */}
         <label>
-          Name
+          Name of your spot
           <input
             type="text"
+            placeholder="Enter a name for your spot"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            maxLength={50}
-            required
           />
+          {submitted && !name && <span className="error">Name is required</span>}
         </label>
 
+        {/* Price */}
         <label>
           Price per night (USD)
           <input
             type="text"
+            placeholder="Set a price per night"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            required
           />
+          {submitted && !price && <span className="error">Price per night is required</span>}
         </label>
 
+        {/* Preview Image URL */}
         <label>
           Preview Image URL
           <input
             type="text"
+            placeholder="Preview Image is required"
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
-            required
           />
+          {submitted && !previewImage && <span className="error">Preview image is required</span>}
+          {submitted && previewImage && !isValidUrl(previewImage) && (
+            <span className="error">Image URL must end in .png, .jpg, or .jpeg</span>
+          )}
         </label>
 
+        {/* Additional Image URLs */}
         <label>
           Additional Image URLs
           {imageUrls.map((url, index) => (
             <input
               key={index}
               type="text"
+              placeholder="Image URL"
               value={url}
               onChange={(e) => {
                 const newImageUrls = [...imageUrls];
@@ -220,6 +235,9 @@ const SpotForm = () => {
               }}
             />
           ))}
+          {submitted && !isValidUrl(imageUrls[0]) && (
+            <span className="error">Image URL must end in .png, .jpg, or .jpeg</span>
+          )}
         </label>
 
         <button type="submit">Create Spot</button>

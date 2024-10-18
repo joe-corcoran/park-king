@@ -32,10 +32,10 @@ function App() {
           <Route path="/spots/new" element={<SpotForm />} />
           <Route path="/spots/current" element={<ManageSpots />} /> 
           <Route path="/spots/:spotId/edit" element={<EditSpotForm />} />
-          {/* new routes */}
+
         </Routes>
       )}
-      <Modal /> {/* global modal */}
+      <Modal /> 
     </>
   );
 }

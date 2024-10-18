@@ -1,6 +1,8 @@
-// OpenModalMenuItem.jsx
+// src/components/Navigation/OpenModalMenuItem.jsx
+
 import React from 'react';
 import { useModal } from '../../components/context/Modal';
+import './OpenModalMenuItem.css'; // Optional: If you have specific styles
 
 function OpenModalMenuItem({
   modalComponent,
@@ -18,7 +20,9 @@ function OpenModalMenuItem({
 
   return (
     <li className="menu-item">
-      <button onClick={onClick}>{itemText}</button>
+      <button onClick={onClick} className="dropdown-item">
+        {itemText}
+      </button>
     </li>
   );
 }
