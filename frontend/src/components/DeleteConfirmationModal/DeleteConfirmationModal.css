@@ -1,0 +1,45 @@
+/* src/components/DeleteConfirmationModal/DeleteConfirmationModal.css */
+
+.delete-confirmation-modal {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .delete-confirmation-modal h2 {
+    margin-bottom: 15px;
+  }
+  
+  .delete-confirmation-modal p {
+    margin-bottom: 20px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .confirm-delete-button {
+    background-color: #d9534f; /* Bootstrap danger color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .confirm-delete-button:hover {
+    background-color: #c9302c;
+  }
+  
+  .cancel-button {
+    background-color: #5bc0de; /* Bootstrap info color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cancel-button:hover {
+    background-color: #31b0d5;
+  }
+  

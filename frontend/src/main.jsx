@@ -1,4 +1,39 @@
+// // frontend/src/main.jsx
+// import React from 'react';
+// import ReactDOM from 'react-dom/client';
+// import { Provider } from 'react-redux';
+// import { BrowserRouter } from 'react-router-dom';
+// import App from './App';
+// import './index.css';
+// import configureStore from './store'; // Ensure this imports from src/store/index.js
+// import { restoreCSRF, csrfFetch } from './store/csrf';
+// import * as sessionActions from './store/session';
+// import { ModalProvider, Modal } from './components/context/Modal';
+
+// const store = configureStore();
+
+// if (process.env.NODE_ENV !== 'production') {
+//   restoreCSRF();
+//   window.csrfFetch = csrfFetch;
+//   window.store = store;
+//   window.sessionActions = sessionActions;
+// }
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//   <React.StrictMode>
+//     <ModalProvider>
+//       <Provider store={store}>
+//         <BrowserRouter>
+//           <App />
+//         </BrowserRouter>
+//       </Provider>
+//     </ModalProvider>
+//   </React.StrictMode>
+// );
+
+
 // frontend/src/main.jsx
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -25,6 +60,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Provider store={store}>
         <BrowserRouter>
           <App />
+          <Modal /> {/* Render the Modal component here */}
         </BrowserRouter>
       </Provider>
     </ModalProvider>

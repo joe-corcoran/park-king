@@ -2,16 +2,21 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUserSpots, deleteSpot } from '../../store/spots'; // Ensure deleteSpot is imported
-import { Link, useNavigate } from 'react-router-dom'; // Replace useHistory with useNavigate
+import { getCurrentUserSpots } from '../../store/spots';
+import { Link, useNavigate } from 'react-router-dom';
+import { useModal } from '../context/Modal';
+
+import DeleteConfirmationModal from '../DeleteConfirmationModal/DeleteConfirmationModal';
 import './ManageSpots.css';
 
 const ManageSpots = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate();
 
   const spotsObj = useSelector((state) => state.spots.userSpots);
   const spots = Object.values(spotsObj);
+
+  const { setModalContent, closeModal } = useModal();
 
   useEffect(() => {
     dispatch(getCurrentUserSpots());
@@ -21,14 +26,13 @@ const ManageSpots = () => {
     navigate(`/spots/${spotId}/edit`);
   };
 
-  const handleDelete = (spotId) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this spot?');
-    if (confirmDelete) {
-      dispatch(deleteSpot(spotId)).then(() => {
-        // Optionally, you can refresh the spots list
-        dispatch(getCurrentUserSpots());
-      });
-    }
+  const openDeleteModal = (spotId) => {
+    setModalContent(
+      <DeleteConfirmationModal
+        spotId={spotId}
+        closeModal={closeModal}
+      />
+    );
   };
 
   return (
@@ -55,7 +59,7 @@ const ManageSpots = () => {
               </div>
               <div className="spot-actions">
                 <button onClick={() => handleUpdate(spot.id)}>Update</button>
-                <button onClick={() => handleDelete(spot.id)}>Delete</button>
+                <button onClick={() => openDeleteModal(spot.id)}>Delete</button>
               </div>
             </div>
           ))}
