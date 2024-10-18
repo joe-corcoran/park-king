@@ -1,3 +1,5 @@
+//backend/db/models/review.js
+
 'use strict';
 const { Model, INTEGER } = require('sequelize');
 

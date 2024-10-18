@@ -1,60 +1,83 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import OpenModalMenuItem from './OpenModalMenuItem';
+import LoginFormModal from '../LoginFormPage/LoginFormModal';
+import SignupFormModal from '../SignupFormPage/SignupFormModal';
+import { NavLink } from 'react-router-dom';
+import './ProfileButton.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const openMenu = () => {
-    console.log("Profile button clicked"); // Add this to verify button click
-    if (showMenu) return;
-    setShowMenu(true);
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
   };
-  
 
   useEffect(() => {
     if (!showMenu) return;
-  
+
     const closeMenu = (e) => {
-      // Ensure the click is not on the button itself
       if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
-  
-    // Add a small delay using setTimeout to prevent immediate closure
-    setTimeout(() => {
-      document.addEventListener('click', closeMenu);
-    }, 0);
-  
+
+    document.addEventListener('click', closeMenu);
+
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
-  
+
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    setShowMenu(false);
+    navigate('/');
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-  console.log("Dropdown menu is visible:", showMenu); // Add this to track visibility state
-  
   return (
-    <>
-      <button onClick={openMenu}>
+    <div className="profile-button">
+      <button onClick={toggleMenu}>
         <FaUserCircle />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
-        <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}>Log Out</button>
-        </li>
-      </ul>
-    </>
+      {showMenu && (
+        <ul className="profile-dropdown" ref={ulRef}>
+          {user ? (
+            <>
+              <li>Hello, {user.firstName}</li>
+              <li>{user.email}</li>
+              <li>
+                <NavLink to="/spots/current" onClick={() => setShowMenu(false)}>
+                  Manage Spots
+                </NavLink>
+              </li>
+              <li>
+                <button onClick={logout}>Log Out</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<LoginFormModal />}
+              />
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<SignupFormModal />}
+              />
+            </>
+          )}
+        </ul>
+      )}
+    </div>
   );
 }
 

@@ -4,14 +4,14 @@
   "description": "Repo for Auth Me project # Park King",
   "main": "index.js",
   "scripts": {
-    "install": "npm --prefix backend install && npm --prefix frontend install",
+    "install": "npm --prefix backend install backend && npm --prefix frontend install frontend",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev": "npm run dev:backend & npm run dev:frontend",
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend",
-    "build": "npm run build --prefix frontend && npm run build --prefix backend"
+    "build": "npm run --prefix backend build && npm run --prefix frontend build"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,9 @@
   "bugs": {
     "url": "https://github.com/joe-corcoran/park-king/issues"
   },
-  "homepage": "https://github.com/joe-corcoran/park-king#readme"
+  "homepage": "https://github.com/heather-yaple/auth-me-project#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0"
+  }
 }
 

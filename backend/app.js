@@ -1,5 +1,8 @@
 //backend/app.js
 
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('DB_FILE:', process.env.DB_FILE);
+
 const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
