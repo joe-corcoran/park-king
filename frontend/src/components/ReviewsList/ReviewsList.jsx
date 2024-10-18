@@ -1,9 +1,14 @@
 // src/components/ReviewsList/ReviewsList.jsx
+
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import './ReviewsList.css';
 
-const ReviewsList = ({ reviews, spot, user }) => {
+const ReviewsList = ({ spot, user }) => {
+  const reviewsObject = useSelector((state) => state.reviews.spotReviews);
+  const reviews = Object.values(reviewsObject).reverse(); // Show latest reviews first
+
   if (!reviews.length) {
     return (
       <div>

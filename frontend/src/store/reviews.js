@@ -1,5 +1,9 @@
+//store/reviews.js
+
 const SET_REVIEWS = 'reviews/SET_REVIEWS';
 const ADD_REVIEW = 'reviews/ADD_REVIEW';
+const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
+
 
 const setReviews = (reviews) => ({
     type: SET_REVIEWS,
@@ -10,6 +14,12 @@ const setReviews = (reviews) => ({
     type: ADD_REVIEW,
     review,
   });
+
+  const removeReview = (reviewId) => ({
+    type: DELETE_REVIEW,
+    reviewId,
+  });
+  
   
   import { csrfFetch } from './csrf';
 
@@ -23,7 +33,7 @@ export const getReviewsBySpotId = (spotId) => async (dispatch) => {
   }
 };
 
-//Adding a new review
+//add a new review
 import { getSpotDetails } from './spots';
 
 export const createReview = (spotId, reviewData) => async (dispatch) => {
@@ -35,7 +45,6 @@ export const createReview = (spotId, reviewData) => async (dispatch) => {
   
     if (response.ok) {
       const newReview = await response.json();
-      // Fetch the user data to include in the review
       const userResponse = await csrfFetch('/api/session');
       const userData = await userResponse.json();
       newReview.User = {
@@ -52,6 +61,21 @@ export const createReview = (spotId, reviewData) => async (dispatch) => {
     }
   };
 
+  //delete a review
+  export const deleteReview = (reviewId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+      method: 'DELETE',
+    });
+  
+    if (response.ok) {
+      dispatch(removeReview(reviewId));
+    } else {
+      const errors = await response.json();
+      throw errors;
+    }
+  };
+  
+  
 
   //reducer
 const initialState = {
@@ -75,11 +99,19 @@ const initialState = {
             [action.review.id]: action.review,
           },
         };
+      } 
+      case DELETE_REVIEW: {
+        const newState = {
+          ...state,
+          spotReviews: { ...state.spotReviews },
+        };
+        delete newState.spotReviews[action.reviewId];
+        console.log('Review deleted:', action.reviewId);
+        console.log('Updated state:', newState);
+        return newState;
       }
-      default:
-        return state;
-    }
+      default: return state;
+    }  
   };
   
   export default reviewsReducer;
-  
