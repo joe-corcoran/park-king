@@ -66,7 +66,6 @@
 // }
 // };
 
-
 const config = require('./index');
 
 module.exports = {
@@ -90,6 +89,6 @@ module.exports = {
     define: {
       schema: process.env.SCHEMA
     },
-    logging: console.log  // Add this line
+    logging: console.log
   }
 };
