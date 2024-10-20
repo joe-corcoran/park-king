@@ -11,7 +11,6 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  // Enable button only when both fields have valid length
   const isFormValid = credential.length >= 4 && password.length >= 6;
 
   const handleSubmit = (e) => {
@@ -25,7 +24,6 @@ function LoginFormModal() {
       });
   };
 
-  // Demo user login handler
   const handleDemoUser = (e) => {
     e.preventDefault();
     return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))

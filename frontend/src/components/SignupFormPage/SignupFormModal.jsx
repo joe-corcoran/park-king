@@ -19,23 +19,28 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        });
+    setErrors({});
+
+    if (password !== confirmPassword) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      }));
+      return;
     }
-    return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
+
+    return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="signup-modal">
+    <form onSubmit={handleSubmit} className="signup-modal" noValidate>
       <h1>Sign Up</h1>
 
-      {/* Error container at the top of the form */}
       <div className="error-container">
         {Object.keys(errors).map((key) => (
           <p key={key} className="error-message">{errors[key]}</p>
@@ -51,6 +56,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.email && <p className="error-message">{errors.email}</p>}
+
       <label>
         Username
         <input
@@ -60,6 +67,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.username && <p className="error-message">{errors.username}</p>}
+
       <label>
         First Name
         <input
@@ -69,6 +78,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.firstName && <p className="error-message">{errors.firstName}</p>}
+
       <label>
         Last Name
         <input
@@ -78,6 +89,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.lastName && <p className="error-message">{errors.lastName}</p>}
+
       <label>
         Password
         <input
@@ -87,6 +100,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.password && <p className="error-message">{errors.password}</p>}
+
       <label>
         Confirm Password
         <input
@@ -96,6 +111,8 @@ function SignupFormModal() {
           required
         />
       </label>
+      {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+
       <button type="submit" className={email && username && password && confirmPassword ? "active" : ""}>
         Sign Up
       </button>
