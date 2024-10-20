@@ -44,7 +44,7 @@ module.exports = {
           },
           {
             spotId: spotIds[0],
-            url: 'https://i.ibb.co/smGydz4/spot1-image3.jpg', 
+            url: 'https://i.ibb.co/Jrg4mmm/images-2.jpg', 
             preview: false
           },
         

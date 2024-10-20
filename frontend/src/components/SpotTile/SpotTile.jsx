@@ -15,7 +15,7 @@ const SpotTile = ({ spot }) => {
   return (
     <div className="spot-tile" onClick={handleClick} title={spot.name}>
       <img
-        src={spot.previewImage || 'https://i.ibb.co/M9nQkym/spot1image0.jpg'}
+       src={spot.previewImage && spot.previewImage.trim() !== '' ? spot.previewImage : 'default-image-url'}
         alt={spot.name}
         className="spot-image"
       />
