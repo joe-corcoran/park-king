@@ -1,3 +1,4 @@
+//frontend/src/components/Navigation/Navigation.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -21,9 +22,13 @@ function Navigation({ isLoaded }) {
               Create a New Spot
             </NavLink>
           )}
-          {/* Combine hamburger and profile into a single clickable container */}
           <div className="menu-buttons">
-            <ProfileButton user={sessionUser} />
+            <button className="hamburger-menu" aria-label="Menu">
+              <FaEllipsisV />
+            </button>
+            {isLoaded && (
+              <ProfileButton user={sessionUser} />
+            )}
           </div>
         </nav>
       </div>

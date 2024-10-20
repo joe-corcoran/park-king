@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaUserCircle, FaEllipsisV } from 'react-icons/fa'; // Import both icons
+import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormPage/LoginFormModal';
 import SignupFormModal from '../SignupFormPage/SignupFormModal';
+import { NavLink } from 'react-router-dom';
 import './ProfileButton.css';
 
 function ProfileButton({ user }) {
@@ -42,10 +43,8 @@ function ProfileButton({ user }) {
 
   return (
     <div className="profile-button">
-      {/* Make the entire area (hamburger + profile) clickable */}
-      <button onClick={toggleMenu} className="combined-button">
-        <FaEllipsisV /> {/* Hamburger menu icon */}
-        <FaUserCircle /> {/* Profile icon */}
+      <button onClick={toggleMenu}>
+        <FaUserCircle />
       </button>
       {showMenu && (
         <ul className="profile-dropdown" ref={ulRef}>
