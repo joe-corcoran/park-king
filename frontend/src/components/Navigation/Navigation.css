@@ -1,4 +1,4 @@
-.header {
+/* .header {
   background-color: var(--vibrant-green);
   padding: 1rem;
 }
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; /* Adds some padding to align with grid */
+  padding: 0 20px; 
 }
 
 .logo-link {
@@ -54,6 +54,56 @@ margin-top: 1rem;
 .hamburger-menu:hover,
 .profile-button button:hover {
   color: var(--crayola-red);
+}
+
+@media (max-width: 768px) {
+  .create-spot-link {
+    display: none;
+  }
+}
+  
+*/
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically aligns all elements */
+  padding: 0 20px;
+}
+
+.logo-image {
+  height: 50px;
+  margin-top: 0; /* Align it better with other elements */
+}
+
+.create-spot-link {
+  text-decoration: none;
+  color: var(--white);
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.menu-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.combined-button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center; /* Ensures icons are centered */
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--white);
+}
+
+.combined-button .icon {
+  margin-left: 5px; /* Adds some space between the icons */
+}
+
+.combined-button:hover {
+  color: var(--crayola-red); /* Hover effect */
 }
 
 @media (max-width: 768px) {

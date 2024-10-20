@@ -1,3 +1,4 @@
+//frontend/src/components/Navigation/Navigation.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -22,12 +23,11 @@ function Navigation({ isLoaded }) {
             </NavLink>
           )}
           <div className="menu-buttons">
-            <button className="hamburger-menu" aria-label="Menu">
-              <FaEllipsisV />
+            {/* Wrap both icons inside the same button */}
+            <button className="combined-button" aria-label="Menu & Profile" onClick={toggleMenu}>
+              <FaEllipsisV className="icon" />
+              <FaUserCircle className="icon" />
             </button>
-            {isLoaded && (
-              <ProfileButton user={sessionUser} />
-            )}
           </div>
         </nav>
       </div>
