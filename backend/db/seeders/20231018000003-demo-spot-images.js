@@ -24,12 +24,12 @@ module.exports = {
           // Spot 1
           {
             spotId: spotIds[0],
-            url: 'https://i.ibb.co/M9nQkym/spot1image0.jpg',
+            url: 'https://i.ibb.co/smGydz4/spot1-image3.jpg',
             preview: true
           },
           {
             spotId: spotIds[0],
-            url: 'https://i.ibb.co/smGydz4/spot1-image3.jpg',
+            url: 'https://i.ibb.co/M9nQkym/spot1image0.jpg',
             preview: false
           },
           {
