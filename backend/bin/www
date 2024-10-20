@@ -2,8 +2,9 @@
 // backend/bin/www
 
 // Import environment variables
-require('dotenv').config();
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const { port } = require('../config');
 
 const app = require('../app');
