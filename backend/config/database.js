@@ -89,6 +89,7 @@ module.exports = {
     },
     define: {
       schema: process.env.SCHEMA
-    }
+    },
+    logging: console.log  // Add this line
   }
 };
