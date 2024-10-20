@@ -81,6 +81,7 @@ module.exports = {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     seederStorage: 'sequelize',
+    seederStorageTableName: 'SequelizeData',
     dialectOptions: {
       ssl: {
         require: true,
