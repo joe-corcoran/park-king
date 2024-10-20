@@ -1,18 +1,21 @@
+const path = require('path');
 const config = require('./index');
 
 module.exports = {
   development: {
-    storage: config.dbFile,
+    storage: path.resolve(__dirname, 'backend/backend/dev.db'), // Update this path
     dialect: "sqlite",
     seederStorage: "sequelize",
     logQueryParameters: true,
-    typeValidation: true
+    typeValidation: true,
+    seedersPath: path.resolve(__dirname, '../db/seeders')
   },
 
   production: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     seederStorage: 'sequelize',
+    seedersPath: path.resolve(__dirname, '../db/seeders'),
     dialectOptions: {
       ssl: {
         require: true,
