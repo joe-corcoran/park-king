@@ -29,6 +29,12 @@
   text-align: left;
 }
 
+.signup-modal input:focus {
+  border-color: var(--vibrant-green); 
+  outline: none;
+}
+
+
 .signup-modal input {
   padding: 10px;
   margin-bottom: 20px;
@@ -41,15 +47,16 @@
 
 .signup-modal button[type="submit"] {
   padding: 10px;
-  width: 100%; 
+  width: 100%;
   background-color: var(--gray);
   color: var(--white);
   border: none;
   border-radius: 4px;
   cursor: not-allowed;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, cursor 0.3s ease; 
 }
+
 
 .signup-modal button.active {
   background-color: var(--vibrant-green);
@@ -73,4 +80,5 @@
   margin-bottom: 20px;
   text-align: left;
   width: 100%;
+  padding-top: 10px;
 }

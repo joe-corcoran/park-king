@@ -17,6 +17,16 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const isFormValid = () => {
+    return (
+      email &&
+      username.length >= 4 &&  
+      password.length >= 6 && 
+      confirmPassword &&
+      password === confirmPassword
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -118,7 +128,8 @@ function SignupFormModal() {
 
       <button
         type="submit"
-        className={email && username && password && confirmPassword ? "active" : ""}
+        disabled={!isFormValid()} 
+        className={isFormValid() ? "active" : ""}
       >
         Sign Up
       </button>
