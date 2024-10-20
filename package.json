@@ -3,18 +3,14 @@
   "version": "1.0.0",
   "description": "Repo for Auth Me project # Park King",
   "main": "index.js",
-"scripts": {
 
+ "scripts": {
   "install": "npm --prefix backend install backend",
-  "sequelize": "npm run --prefix backend sequelize-cli",
-  "start": "npm start --prefix backend",
-  "build": "npm run --prefix backend build",
   "dev:backend": "npm --prefix backend run dev",
-  "dev:frontend": "npm --prefix frontend run dev",
-  "dev": "npm run dev:backend & npm run dev:frontend",
-  "db:migrate": "cd backend && npx sequelize-cli db:migrate",
-  "db:seed:all": "cd backend && npx sequelize-cli db:seed:all",
-  "db:seed:undo:all": "cd backend && npx sequelize-cli db:seed:undo:all"
+  "sequelize": "npm run --prefix backend sequelize",
+  "sequelize-cli": "npm run --prefix backend sequelize-cli",
+  "start": "npm start --prefix backend",
+  "build": "npm run --prefix backend build"
 },
   "repository": {
     "type": "git",
