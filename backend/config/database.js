@@ -67,6 +67,7 @@
 // };
 
 const config = require('./index');
+const Sequelize = require('sequelize');
 
 module.exports = {
   development: {
