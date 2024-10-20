@@ -10,8 +10,8 @@
   "sequelize": "npm run --prefix backend sequelize",
   "db:migrate": "npm run --prefix backend db:migrate",
   "db:seed:all": "npm run --prefix backend db:seed:all",
-  "db:migrate:prod": "npm run --prefix backend db:migrate:prod",
-  "db:seed:all:prod": "npm run --prefix backend db:seed:all:prod",
+ "db:migrate:prod": "npx dotenv sequelize-cli db:migrate",
+"db:seed:all:prod": "npx dotenv sequelize-cli db:seed:all",
   "start": "npm start --prefix backend",
   "build": "npm run --prefix backend build"
 },
