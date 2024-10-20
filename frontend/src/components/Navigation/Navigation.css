@@ -1,4 +1,4 @@
-/* .header {
+.header {
   background-color: var(--vibrant-green);
   padding: 1rem;
 }
@@ -7,39 +7,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; 
+  padding: 0 20px;
 }
 
 .logo-link {
   text-decoration: none;
-
-
 }
 
 .logo-image {
-  height: 50px;
-margin-top: 1rem;
+  height: 60px;
+  margin-top: 1rem;
+
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  margin-right: 1rem;
-
 }
 
 .create-spot-link {
   text-decoration: none;
   color: var(--white);
-  margin-top: 1rem;
   font-weight: bold;
-  margin-right: 1rem;
+  margin-right: 1.5rem; 
+  display: flex;
+  align-items: center; 
 }
 
 .menu-buttons {
   display: flex;
   align-items: center;
- 
+  gap: 10px; 
 }
 
 .hamburger-menu {
@@ -48,7 +46,8 @@ margin-top: 1rem;
   cursor: pointer;
   font-size: 24px;
   color: var(--white);
-
+  display: flex;
+  align-items: center;
 }
 
 .hamburger-menu:hover,
@@ -56,54 +55,52 @@ margin-top: 1rem;
   color: var(--crayola-red);
 }
 
-@media (max-width: 768px) {
-  .create-spot-link {
-    display: none;
-  }
-}
-  
-*/
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* Vertically aligns all elements */
-  padding: 0 20px;
+.profile-button {
+  position: relative;
+  display: flex; 
+  align-items: center; 
 }
 
-.logo-image {
-  height: 50px;
-  margin-top: 0; /* Align it better with other elements */
-}
-
-.create-spot-link {
-  text-decoration: none;
-  color: var(--white);
-  font-weight: bold;
-  margin-right: 1rem;
-}
-
-.menu-buttons {
-  display: flex;
-  align-items: center;
-}
-
-.combined-button {
+.profile-button button {
   background: none;
   border: none;
-  display: flex;
-  align-items: center; /* Ensures icons are centered */
   cursor: pointer;
-  font-size: 24px;
+  font-size: 32px;
   color: var(--white);
 }
 
-.combined-button .icon {
-  margin-left: 5px; /* Adds some space between the icons */
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--white);
+  border: 1px solid #DDDDDD;
+  border-radius: 12px;
+  padding: 10px 0;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  width: 200px;
+  z-index: 1000;
 }
 
-.combined-button:hover {
-  color: var(--crayola-red); /* Hover effect */
+.profile-dropdown li {
+  padding: 8px 20px;
+  list-style-type: none;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+  background: none;
+  border: none;
+  color: var(--indigo);
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  color: var(--vibrant-green);
 }
 
 @media (max-width: 768px) {
