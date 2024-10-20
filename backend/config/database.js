@@ -67,7 +67,6 @@
 // };
 
 const config = require('./index');
-const Sequelize = require('sequelize');
 
 module.exports = {
   development: {
@@ -92,4 +91,4 @@ module.exports = {
       schema: process.env.SCHEMA
     }
   }
-}
+};
