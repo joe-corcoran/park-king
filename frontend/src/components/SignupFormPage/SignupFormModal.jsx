@@ -32,8 +32,16 @@ function SignupFormModal() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="signup-modal">
       <h1>Sign Up</h1>
+
+      {/* Error container at the top of the form */}
+      <div className="error-container">
+        {Object.keys(errors).map((key) => (
+          <p key={key} className="error-message">{errors[key]}</p>
+        ))}
+      </div>
+
       <label>
         Email
         <input
@@ -43,7 +51,6 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.email && <p>{errors.email}</p>}
       <label>
         Username
         <input
@@ -53,7 +60,6 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.username && <p>{errors.username}</p>}
       <label>
         First Name
         <input
@@ -63,7 +69,6 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.firstName && <p>{errors.firstName}</p>}
       <label>
         Last Name
         <input
@@ -73,7 +78,6 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.lastName && <p>{errors.lastName}</p>}
       <label>
         Password
         <input
@@ -83,7 +87,6 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.password && <p>{errors.password}</p>}
       <label>
         Confirm Password
         <input
@@ -93,8 +96,9 @@ function SignupFormModal() {
           required
         />
       </label>
-      {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-      <button type="submit">Sign Up</button>
+      <button type="submit" className={email && username && password && confirmPassword ? "active" : ""}>
+        Sign Up
+      </button>
     </form>
   );
 }
