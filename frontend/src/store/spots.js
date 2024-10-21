@@ -84,11 +84,13 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
 
     // Upload images after creating the spot
     for (let i = 0; i < imageUrls.length; i++) {
-      const imageData = imageUrls[i];
+      const imageUrl = imageUrls[i];
+      const preview = i === 0; // First image is always the preview
+
       await csrfFetch(`/api/spots/${newSpot.id}/images`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(imageData),
+        body: JSON.stringify({ url: imageUrl, preview }),
       });
     }
 
@@ -98,14 +100,13 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
       const spotDetails = await spotDetailsResponse.json();
       dispatch(addSpot(spotDetails));
       return spotDetails;
-    } else {
-      // Handle errors if necessary
     }
   } else {
     const errors = await response.json();
     throw errors;
   }
 };
+
 
 // Fetch current user's spots
 export const getCurrentUserSpots = () => async (dispatch) => {
@@ -121,7 +122,6 @@ export const getCurrentUserSpots = () => async (dispatch) => {
     dispatch(setUserSpots(spots));
   }
 };
-
 // Update a spot
 export const updateSpot = (spotId, spotData, imageUrls) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -133,7 +133,7 @@ export const updateSpot = (spotId, spotData, imageUrls) => async (dispatch) => {
   if (response.ok) {
     const updatedSpot = await response.json();
 
-    // Remove existing images
+    // Delete existing images
     const existingImages = await csrfFetch(`/api/spots/${spotId}/images`);
     const images = await existingImages.json();
     for (let image of images) {
@@ -141,11 +141,14 @@ export const updateSpot = (spotId, spotData, imageUrls) => async (dispatch) => {
     }
 
     // Add new images
-    for (let imageData of imageUrls) {
+    for (let i = 0; i < imageUrls.length; i++) {
+      const imageUrl = imageUrls[i];
+      const preview = i === 0; // First image is always the preview
+
       await csrfFetch(`/api/spots/${spotId}/images`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(imageData),
+        body: JSON.stringify({ url: imageUrl, preview }),
       });
     }
 

@@ -1,5 +1,4 @@
 //frontend/src/components/SpotForm/SpotForm.jsx
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ const SpotForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [previewImage, setPreviewImage] = useState("");
-  const [imageUrls, setImageUrls] = useState(["", "", "", ""]);
+  const [imageUrls, setImageUrls] = useState(["", "", "", "", ""]);
   const [submitted, setSubmitted] = useState(false);
 
   if (!sessionUser) {
@@ -72,13 +71,15 @@ const SpotForm = () => {
       price: parseFloat(price),
     };
 
-    const imageUrlsArray = [
-      { url: previewImage, preview: true },
-      ...imageUrls.filter((url) => url).map((url) => ({ url, preview: false }))
-    ];
+    const filteredImageUrls = imageUrls.filter(url => url.trim() !== "");
+
+    if (filteredImageUrls.length === 0) {
+      setErrors(["At least one image URL is required"]);
+      return;
+    }
 
     try {
-      const newSpot = await dispatch(createSpot(spotData, imageUrlsArray));
+      const newSpot = await dispatch(createSpot(spotData, filteredImageUrls));
       navigate(`/spots/${newSpot.id}`);
     } catch (res) {
       const data = await res.json();
@@ -280,31 +281,26 @@ const SpotForm = () => {
         {submitted && !previewImage && (
           <span className="error">Preview image is required</span>
         )}
-        {imageUrls.map((url, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => {
-                const newImageUrls = [...imageUrls];
-                newImageUrls[index] = e.target.value;
-                setImageUrls(newImageUrls);
-              }}
-              placeholder="Image URL"
-            />
-            {submitted && index === 0 && url && !isValidUrl(url) && (
-              <span className="error">
-                Image URL must end in .png, .jpg, or .jpeg
-              </span>
-            )}
-          </div>
+      {imageUrls.map((url, index) => (
+          <input
+            key={index}
+            type="text"
+            value={url}
+            onChange={(e) => {
+              const newImageUrls = [...imageUrls];
+              newImageUrls[index] = e.target.value;
+              setImageUrls(newImageUrls);
+            }}
+            placeholder={index === 0 ? "Preview Image URL" : `Image URL ${index + 1}`}
+          />
         ))}
       </section>
 
       <button type="submit">Create Spot</button>
-    </form>
-  </div>
-);
+      </form>
+    </div>
+  );
 };
 
 export default SpotForm;
+
