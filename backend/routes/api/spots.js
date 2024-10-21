@@ -369,6 +369,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+
 router.get('/:spotId', async (req, res, next) => {
     const { spotId } = req.params;
   
@@ -383,72 +384,30 @@ router.get('/:spotId', async (req, res, next) => {
                     model: User,
                     as: 'Owner',
                     attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: Review,
+                    attributes: []
                 }
-            ]
+            ],
+            attributes: {
+                include: [
+                    [sequelize.fn('COUNT', sequelize.col('Reviews.id')), 'numReviews'],
+                    [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating']
+                ]
+            },
+            group: ['Spot.id', 'SpotImages.id', 'Owner.id']
         });
   
         if (!spot) {
             return res.status(404).json({ message: "Spot couldn't be found" });
         }
-
-        // Separate query for review stats
-        const reviewStats = await Review.findOne({
-            where: { spotId },
-            attributes: [
-                [sequelize.fn('COUNT', sequelize.col('id')), 'numReviews'],
-                [sequelize.fn('AVG', sequelize.col('stars')), 'avgStarRating']
-            ]
-        });
-
-        const spotJSON = spot.toJSON();
-        spotJSON.numReviews = parseInt(reviewStats.getDataValue('numReviews'), 10);
-        
-        const avgRating = reviewStats.getDataValue('avgStarRating');
-        spotJSON.avgStarRating = avgRating ? parseFloat(avgRating).toFixed(1) : '0.0';
   
-        res.json(spotJSON);
+        res.json(spot);
     } catch (error) {
         next(error);
     }
 });
-// router.get('/:spotId', async (req, res, next) => {
-//     const { spotId } = req.params;
-  
-//     try {
-//         const spot = await Spot.findByPk(spotId, {
-//             include: [
-//                 {
-//                     model: SpotImage,
-//                     attributes: ['id', 'url', 'preview']
-//                 },
-//                 {
-//                     model: User,
-//                     as: 'Owner',
-//                     attributes: ['id', 'firstName', 'lastName']
-//                 },
-//                 {
-//                     model: Review,
-//                     attributes: []
-//                 }
-//             ],
-//             attributes: {
-//                 include: [
-//                     [sequelize.fn('COUNT', sequelize.col('Reviews.id')), 'numReviews'],
-//                     [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating']
-//                 ]
-//             },
-//             group: ['Spot.id', 'SpotImages.id', 'Owner.id']
-//         });
-  
-//         if (!spot) {
-//             return res.status(404).json({ message: "Spot couldn't be found" });
-//         }
-  
-//         res.json(spot);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
 
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { spotId } = req.params;
