@@ -9,6 +9,7 @@ const ADD_SPOT = "spots/ADD_SPOT";
 const SET_USER_SPOTS = "spots/SET_USER_SPOTS";
 const REMOVE_SPOT = "spots/REMOVE_SPOT";
 const UPDATE_SPOT = "spots/UPDATE_SPOT";
+const UPDATE_SPOT_DETAILS = 'spots/UPDATE_SPOT_DETAILS';
 
 // Action Creators
 const setSpots = (spots) => ({
@@ -40,6 +41,7 @@ const updateSpotAction = (spot) => ({
   type: UPDATE_SPOT,
   spot,
 });
+
 
 // Thunks
 
@@ -142,6 +144,13 @@ export const updateSpot = (spotId, spotData) => async (dispatch) => {
   }
 };
 
+export const updateSpotDetails = (spotId, avgStarRating, numReviews) => ({
+  type: UPDATE_SPOT_DETAILS,
+  spotId,
+  avgStarRating,
+  numReviews,
+});
+
 
 // Delete a spot
 export const deleteSpot = (spotId) => async (dispatch) => {
@@ -212,6 +221,31 @@ const spotsReducer = (state = initialState, action) => {
         allSpots: newAllSpots,
         userSpots: newUserSpots,
       };
+      case UPDATE_SPOT_DETAILS:
+        return {
+          ...state,
+          singleSpot: {
+            ...state.singleSpot,
+            avgStarRating: action.avgStarRating,
+            numReviews: action.numReviews,
+          },
+          allSpots: {
+            ...state.allSpots,
+            [action.spotId]: {
+              ...state.allSpots[action.spotId],
+              avgStarRating: action.avgStarRating,
+              numReviews: action.numReviews,
+            },
+          },
+          userSpots: {
+            ...state.userSpots,
+            [action.spotId]: {
+              ...state.userSpots[action.spotId],
+              avgStarRating: action.avgStarRating,
+              numReviews: action.numReviews,
+            },
+          },
+        };
     default:
       return state;
   }

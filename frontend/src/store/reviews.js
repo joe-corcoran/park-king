@@ -34,7 +34,7 @@ export const getReviewsBySpotId = (spotId) => async (dispatch) => {
 };
 
 //add a new review
-import { getSpotDetails } from './spots';
+import { getSpotDetails, updateSpotDetails } from './spots';
 
 export const createReview = (spotId, reviewData) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
@@ -62,20 +62,34 @@ export const createReview = (spotId, reviewData) => async (dispatch) => {
   };
 
   //delete a review
-  export const deleteReview = (reviewId) => async (dispatch) => {
+  export const deleteReview = (reviewId, spotId) => async (dispatch, getState) => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
       method: 'DELETE',
     });
   
     if (response.ok) {
       dispatch(removeReview(reviewId));
-    } else {
-      const errors = await response.json();
-      throw errors;
-    }
-  };
   
+      // Get the updated spot details
+      const state = getState();
+      const reviews = Object.values(state.reviews.spotReviews).filter(review => review.spotId === spotId);
   
+      // Calculate new average rating and number of reviews
+      const newNumReviews = reviews.length;
+      const newAvgRating = newNumReviews === 0 
+        ? 0 
+        : reviews.reduce((sum, review) => sum + review.stars, 0) / newNumReviews;
+  
+    // Dispatch action to update spot details
+    dispatch(updateSpotDetails(spotId, newAvgRating, newNumReviews));
+    
+    // Fetch updated spot details
+    dispatch(getSpotDetails(spotId));
+  } else {
+    const errors = await response.json();
+    throw errors;
+  }
+};
 
   //reducer
 const initialState = {
