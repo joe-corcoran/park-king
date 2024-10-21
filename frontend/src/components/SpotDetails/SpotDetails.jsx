@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getSpotDetails } from '../../store/spots';
-import { getReviewsBySpotId } from '../../store/reviews';
-import ReviewsList from '../ReviewsList/ReviewsList';
-import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
-import { useModal } from '../context/Modal'; // Import useModal
-import './SpotDetails.css';
+import React, { useEffect, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getSpotDetails } from "../../store/spots";
+import { getReviewsBySpotId } from "../../store/reviews";
+import ReviewsList from "../ReviewsList/ReviewsList";
+import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
+import { useModal } from "../context/Modal"; 
+import "./SpotDetails.css";
 
 const SpotDetails = () => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const { setModalContent, closeModal } = useModal(); // Use modal context
+  const { setModalContent, closeModal } = useModal(); 
 
   const spot = useSelector((state) => state.spots.singleSpot);
   const user = useSelector((state) => state.session.user);
@@ -27,27 +27,18 @@ const SpotDetails = () => {
       dispatch(getReviewsBySpotId(spotId)),
     ])
       .then(() => setIsLoaded(true))
-      .catch((err) => {
-      });
+      .catch((err) => {});
   }, [dispatch, spotId]);
 
   if (!isLoaded) return <div>Loading...</div>;
   if (!spot.id) return <div>Spot not found</div>;
 
-  const hasUserReviewed = reviews.some(
-    (review) => review.userId === user?.id
-  );
+  const hasUserReviewed = reviews.some((review) => review.userId === user?.id);
 
-  const canPostReview =
-    user && user.id !== spot.ownerId && !hasUserReviewed;
+  const canPostReview = user && user.id !== spot.ownerId && !hasUserReviewed;
 
   const openReviewModal = () => {
-    setModalContent(
-      <ReviewFormModal
-        spotId={spot.id}
-        onClose={closeModal}
-      />
-    );
+    setModalContent(<ReviewFormModal spotId={spot.id} onClose={closeModal} />);
   };
 
   return (
@@ -65,7 +56,11 @@ const SpotDetails = () => {
             </div>
             <div className="thumbnail-images">
               {spot.SpotImages.slice(1, 5).map((image, idx) => (
-                <img key={idx} src={image.url} alt={`${spot.name} ${idx + 1}`} />
+                <img
+                  key={idx}
+                  src={image.url}
+                  alt={`${spot.name} ${idx + 1}`}
+                />
               ))}
             </div>
           </>
@@ -83,41 +78,48 @@ const SpotDetails = () => {
         </div>
 
         <div className="spot-callout">
-  <div className="price-rating-container">
-    <div className="price">
-      ${spot.price}<span className="night-text"> night</span>
-    </div>
-    <div className="spot-rating-callout">
-      <i className="fas fa-star"></i>{' '}
-      {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
-      {' · '}
-      {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
-    </div>
-  </div>
-  <div
-    className="reserve-button"
-    onClick={() => alert('Feature coming soon')}
-  >
-    Reserve
-  </div>
-</div>
-
+          <div className="price-rating-container">
+            <div className="price">
+              ${spot.price}
+              <span className="night-text"> night</span>
+            </div>
+            <div className="spot-rating-callout">
+              <i className="fas fa-star"></i>{" "}
+              {spot.avgStarRating
+                ? Number(spot.avgStarRating).toFixed(1)
+                : "New"}
+              {" · "}
+              {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
+            </div>
+          </div>
+          <div
+            className="reserve-button"
+            onClick={() => alert("Feature coming soon")}
+          >
+            Reserve
+          </div>
+        </div>
       </div>
-
-      {/* Reviews Section */}
+      <hr className="divider" />
+     
       <div className="reviews-section">
         <h2>
-          <i className="fas fa-star"></i>{' '}
-          {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
-          {' · '}
-          {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+          <i className="fas fa-star"></i>{" "}
+          {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : "New"}
+          {spot.numReviews > 0 && (
+            <>
+              {" · "}
+              {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
+            </>
+          )}
         </h2>
-
         {canPostReview && (
-          <button onClick={openReviewModal}>
+          <button onClick={openReviewModal} className="post-review-button">
             Post Your Review
           </button>
         )}
+
+        {spot.numReviews === 0 && <p>Be the first to post a review!</p>}
 
         <ReviewsList reviews={reviews} spot={spot} user={user} />
       </div>
