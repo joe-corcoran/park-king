@@ -23,9 +23,9 @@ function Navigation({ isLoaded }) {
             </NavLink>
           )}
           <div className="menu-buttons">
-            <button className="hamburger-menu" aria-label="Menu">
+            {/* <button className="hamburger-menu" aria-label="Menu">
               <FaEllipsisV />
-            </button>
+            </button> */}
             {isLoaded && (
               <ProfileButton user={sessionUser} />
             )}

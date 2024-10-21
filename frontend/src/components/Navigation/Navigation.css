@@ -15,8 +15,11 @@
 }
 
 .logo-image {
-  height: 60px;
+  height: 50px;
   margin-top: 1rem;
+  position: relative;
+  display: flex; 
+  align-items: center; 
 
 }
 
@@ -34,23 +37,6 @@
   align-items: center; 
 }
 
-.menu-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px; 
-}
-
-.hamburger-menu {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: var(--white);
-  display: flex;
-  align-items: center;
-}
-
-.hamburger-menu:hover,
 .profile-button button:hover {
   color: var(--crayola-red);
 }
@@ -67,6 +53,7 @@
   cursor: pointer;
   font-size: 32px;
   color: var(--white);
+margin-top: 1rem
 }
 
 .profile-dropdown {
