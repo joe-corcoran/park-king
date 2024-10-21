@@ -2,7 +2,7 @@
 
 import { csrfFetch } from "./csrf";
 
-// Action Types
+// action types
 const SET_SPOTS = "spots/SET_SPOTS";
 const SET_SPOT_DETAILS = "spots/SET_SPOT_DETAILS";
 const ADD_SPOT = "spots/ADD_SPOT";
@@ -11,7 +11,7 @@ const REMOVE_SPOT = "spots/REMOVE_SPOT";
 const UPDATE_SPOT = "spots/UPDATE_SPOT";
 const UPDATE_SPOT_DETAILS = 'spots/UPDATE_SPOT_DETAILS';
 
-// Action Creators
+// action creators
 const setSpots = (spots) => ({
   type: SET_SPOTS,
   spots,
@@ -43,7 +43,7 @@ const updateSpotAction = (spot) => ({
 });
 
 
-// Thunks
+
 
 // Fetch all spots
 export const getAllSpots = () => async (dispatch) => {
@@ -51,7 +51,6 @@ export const getAllSpots = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
 
-    // Normalize spots data into an object with spot IDs as keys
     const spots = {};
     data.Spots.forEach((spot) => {
       spots[spot.id] = spot;
@@ -69,7 +68,6 @@ export const getSpotDetails = (spotId) => async (dispatch) => {
     dispatch(setSpotDetails(data));
     return data;
   } else {
-    // Handle errors if necessary
   }
 };
 
@@ -103,7 +101,6 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
       dispatch(addSpot(spotDetails));
       return spotDetails;
     } else {
-      // Handle errors if necessary
     }
   } else {
     const errors = await response.json();
@@ -111,7 +108,7 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
   }
 };
 
-// Fetch current user's spots
+// fetch current user's spots
 export const getCurrentUserSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots/current");
   if (response.ok) {
@@ -152,7 +149,7 @@ export const updateSpotDetails = (spotId, avgStarRating, numReviews) => ({
 });
 
 
-// Delete a spot
+// delete a spot
 export const deleteSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "DELETE",
@@ -163,7 +160,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
   }
 };
 
-// Reducer
+// reducer
 const initialState = {
   allSpots: {},
   singleSpot: {},

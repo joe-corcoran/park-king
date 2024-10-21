@@ -12,7 +12,7 @@ const DeleteConfirmationModal = ({ spotId, closeModal }) => {
   const handleDelete = async () => {
     try {
       await dispatch(deleteSpot(spotId));
-      closeModal(); // Close the modal after deletion
+      closeModal(); 
     } catch (err) {
       const errorMessages = err.errors ? Object.values(err.errors) : [];
       setErrors(errorMessages);

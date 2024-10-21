@@ -1,13 +1,13 @@
 // src/components/ReviewItem/ReviewItem.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../context/Modal'; // Import useModal if using modal context
+import { useModal } from '../context/Modal'; 
 import DeleteReviewConfirmationModal from '../DeleteReviewConfirmationModal/DeleteReviewConfirmationModal';
 import './ReviewItem.css';
 
 const ReviewItem = ({ review }) => {
   const dispatch = useDispatch();
-  const { setModalContent, closeModal } = useModal(); // Destructure from useModal
+  const { setModalContent, closeModal } = useModal(); 
 
   const sessionUser = useSelector((state) => state.session.user);
 

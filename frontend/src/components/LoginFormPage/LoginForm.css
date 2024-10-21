@@ -16,15 +16,15 @@
 .login-modal form {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Ensure all items (inputs/buttons) are centered */
+  align-items: center;
 }
 
 .login-modal label {
   margin-bottom: 10px;
   color: var(--indigo);
   font-weight: bold;
-  width: 100%;  /* Ensure the label takes full width */
-  text-align: left;  /* Align label text to the left */
+  width: 100%;  
+  text-align: left;  
 }
 
 .login-modal input {
@@ -33,13 +33,13 @@
   border: 1px solid var(--gray);
   border-radius: 5px;
   font-size: 16px;
-  width: 100%;  /* Make input fields take full width */
-  box-sizing: border-box;  /* Include padding in the element's width */
+  width: 100%;  
+  box-sizing: border-box;  
 }
 
 .login-modal button[type="submit"] {
   padding: 10px;
-  width: 100%;  /* Make the button take full width */
+  width: 100%; 
   background-color: var(--gray);
   color: var(--white);
   border: none;

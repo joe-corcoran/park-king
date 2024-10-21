@@ -7,7 +7,7 @@ import './ReviewsList.css';
 
 const ReviewsList = ({ spot, user }) => {
   const reviewsObject = useSelector((state) => state.reviews.spotReviews);
-  const reviews = Object.values(reviewsObject).reverse(); // Show latest reviews first
+  const reviews = Object.values(reviewsObject).reverse(); 
 
   if (!reviews.length) {
     return (
