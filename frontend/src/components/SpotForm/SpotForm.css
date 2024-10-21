@@ -51,7 +51,7 @@
 .spot-form-container input,
 .spot-form-container textarea {
   width: 100%;
-  padding: 10px;
+  padding: 10px 12px;
   border: 1px solid var(--gray);
   border-radius: 4px;
   font-size: 16px;
@@ -72,6 +72,7 @@
 .spot-form-container .error-inline {
   color: var(--crayola-red);
   font-size: 14px;
+  display: inline-block;
   margin-left: 10px;
 }
 
@@ -87,7 +88,7 @@
 }
 
 .spot-form-container .divider {
-  margin: 20px 0; /* Reduced vertical spacing */
+  margin: 20px 0;
   border: none;
   border-top: 1px solid var(--gray);
 }
@@ -107,26 +108,12 @@
   background-color: var(--dark-blue);
 }
 
-/* Keeping the original inline-field styles */
-.spot-form-container .inline-field {
+.spot-form-container .label-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
-/* Consistent padding for all inputs */
-.spot-form-container input,
-.spot-form-container textarea {
-  padding: 10px 12px;
-}
-
-/* Spacing between inline fields */
-.spot-form-container .inline-fields .field:first-child {
-  margin-right: 10px;
-}
-
-/* Vertical spacing between image URL inputs */
 .spot-form-container .photos-section input {
   margin-bottom: 10px;
 }

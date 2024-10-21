@@ -100,9 +100,14 @@ const SpotForm = () => {
             Guests will only get your exact address once they booked a
             reservation.
           </p>
-
+  
           <div className="form-group">
-            <label htmlFor="country">Country</label>
+            <div className="label-group">
+              <label htmlFor="country">Country</label>
+              {submitted && !country && (
+                <span className="error-inline">Country is required</span>
+              )}
+            </div>
             <input
               id="country"
               type="text"
@@ -110,13 +115,15 @@ const SpotForm = () => {
               onChange={(e) => setCountry(e.target.value)}
               placeholder="Country"
             />
-            {submitted && !country && (
-              <span className="error">Country is required</span>
-            )}
           </div>
-
+  
           <div className="form-group">
-            <label htmlFor="address">Street Address</label>
+            <div className="label-group">
+              <label htmlFor="address">Street Address</label>
+              {submitted && !address && (
+                <span className="error-inline">Address is required</span>
+              )}
+            </div>
             <input
               id="address"
               type="text"
@@ -124,14 +131,16 @@ const SpotForm = () => {
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Address"
             />
-            {submitted && !address && (
-              <span className="error">Address is required</span>
-            )}
           </div>
-
+  
           <div className="form-group inline-fields">
             <div className="field">
-              <label htmlFor="city">City</label>
+              <div className="label-group">
+                <label htmlFor="city">City</label>
+                {submitted && !city && (
+                  <span className="error-inline">City is required</span>
+                )}
+              </div>
               <input
                 id="city"
                 type="text"
@@ -139,12 +148,14 @@ const SpotForm = () => {
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="City"
               />
-              {submitted && !city && (
-                <span className="error">City is required</span>
-              )}
             </div>
             <div className="field">
-              <label htmlFor="state">State</label>
+              <div className="label-group">
+                <label htmlFor="state">State</label>
+                {submitted && !stateName && (
+                  <span className="error-inline">State is required</span>
+                )}
+              </div>
               <input
                 id="state"
                 type="text"
@@ -152,15 +163,17 @@ const SpotForm = () => {
                 onChange={(e) => setStateName(e.target.value)}
                 placeholder="STATE"
               />
-              {submitted && !stateName && (
-                <span className="error">State is required</span>
-              )}
             </div>
           </div>
-
+  
           <div className="form-group inline-fields">
             <div className="field">
-              <label htmlFor="latitude">Latitude</label>
+              <div className="label-group">
+                <label htmlFor="latitude">Latitude</label>
+                {submitted && !lat && (
+                  <span className="error-inline">Latitude is required</span>
+                )}
+              </div>
               <input
                 id="latitude"
                 type="text"
@@ -168,12 +181,14 @@ const SpotForm = () => {
                 onChange={(e) => setLat(e.target.value)}
                 placeholder="Latitude"
               />
-              {submitted && !lat && (
-                <span className="error">Latitude is required</span>
-              )}
             </div>
             <div className="field">
-              <label htmlFor="longitude">Longitude</label>
+              <div className="label-group">
+                <label htmlFor="longitude">Longitude</label>
+                {submitted && !lng && (
+                  <span className="error-inline">Longitude is required</span>
+                )}
+              </div>
               <input
                 id="longitude"
                 type="text"
@@ -181,15 +196,12 @@ const SpotForm = () => {
                 onChange={(e) => setLng(e.target.value)}
                 placeholder="Longitude"
               />
-              {submitted && !lng && (
-                <span className="error">Longitude is required</span>
-              )}
             </div>
           </div>
         </section>
-
+  
         <hr className="divider" />
-
+  
         <section className="description-section">
           <h2>Describe your place to guests</h2>
           <p>
@@ -203,7 +215,7 @@ const SpotForm = () => {
           ></textarea>
           {submitted && description.length < 30 && (
             <span className="error">
-              Description needs 30 or more characters
+              Description needs a minimum of 30 characters
             </span>
           )}
         </section>
@@ -251,18 +263,21 @@ const SpotForm = () => {
 
         <hr className="divider" />
 
-        <section className="photos-section">
-          <h2>Liven up your spot with photos</h2>
-          <p>Submit a link to at least one photo to publish your spot.</p>
-          <input
-            type="text"
-            value={previewImage}
-            onChange={(e) => setPreviewImage(e.target.value)}
-            placeholder="Preview Image URL"
-          />
-          {imageUrls.map((url, index) => (
+      <section className="photos-section">
+        <h2>Liven up your spot with photos</h2>
+        <p>Submit a link to at least one photo to publish your spot.</p>
+        <input
+          type="text"
+          value={previewImage}
+          onChange={(e) => setPreviewImage(e.target.value)}
+          placeholder="Preview Image URL"
+        />
+        {submitted && !previewImage && (
+          <span className="error">Preview image is required</span>
+        )}
+        {imageUrls.map((url, index) => (
+          <div key={index}>
             <input
-              key={index}
               type="text"
               value={url}
               onChange={(e) => {
@@ -272,13 +287,19 @@ const SpotForm = () => {
               }}
               placeholder="Image URL"
             />
-          ))}
-        </section>
+            {submitted && index === 0 && url && !isValidUrl(url) && (
+              <span className="error">
+                Image URL must end in .png, .jpg, or .jpeg
+              </span>
+            )}
+          </div>
+        ))}
+      </section>
 
-        <button type="submit">Create Spot</button>
-      </form>
-    </div>
-  );
+      <button type="submit">Create Spot</button>
+    </form>
+  </div>
+);
 };
 
 export default SpotForm;
