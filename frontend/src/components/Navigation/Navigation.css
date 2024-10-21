@@ -23,9 +23,14 @@
 
 }
 
+.create-spot-link {
+  margin-top: 1rem;
+}
+
 .nav-menu {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .create-spot-link {
