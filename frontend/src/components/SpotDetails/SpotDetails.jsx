@@ -84,17 +84,17 @@ const SpotDetails = () => {
             <span className="night-text"> night</span>
           </div>
           <div className="spot-rating-callout">
-            <i className="fas fa-star"></i>{" "}
-            {spot.avgStarRating
-              ? Number(spot.avgStarRating).toFixed(1)
-              : "New"}
-            {spot.numReviews > 0 && (
-              <>
-                {" · "}
-                {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
-              </>
-            )}
-          </div>
+  <i className="fas fa-star"></i>{" "}
+  {spot.avgStarRating
+    ? Number(spot.avgStarRating).toFixed(1)
+    : "New"}
+  {spot.numReviews > 0 && (
+    <>
+      {" · "}
+      {spot.numReviews} review{spot.numReviews !== 1 ? "s" : ""}
+    </>
+  )}
+</div>
         </div>
           <div
             className="reserve-button"
@@ -107,16 +107,16 @@ const SpotDetails = () => {
       <hr className="divider" />
 
       <div className="reviews-section">
-        <h2>
-          <i className="fas fa-star"></i>{' '}
-          {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
-          {spot.numReviews > 0 && (
-            <>
-              {' · '}
-              {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
-            </>
-          )}
-        </h2>
+      <h2>
+  <i className="fas fa-star"></i>{' '}
+  {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
+  {spot.numReviews > 0 && (
+    <>
+      {' · '}
+      {spot.numReviews} review{spot.numReviews !== 1 ? 's' : ''}
+    </>
+  )}
+</h2>
 
   {canPostReview && (
     <button onClick={openReviewModal} className="post-review-button">
