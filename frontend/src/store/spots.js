@@ -85,7 +85,7 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
     // Upload images after creating the spot
     for (let i = 0; i < imageUrls.length; i++) {
       const imageUrl = imageUrls[i];
-      const preview = i === 0; // First image is always the preview
+      const preview = i === 0;
 
       await csrfFetch(`/api/spots/${newSpot.id}/images`, {
         method: "POST",
@@ -100,13 +100,14 @@ export const createSpot = (spotData, imageUrls) => async (dispatch) => {
       const spotDetails = await spotDetailsResponse.json();
       dispatch(addSpot(spotDetails));
       return spotDetails;
+    } else {
+      // Handle errors if necessary
     }
   } else {
     const errors = await response.json();
     throw errors;
   }
 };
-
 
 // Fetch current user's spots
 export const getCurrentUserSpots = () => async (dispatch) => {
@@ -122,8 +123,9 @@ export const getCurrentUserSpots = () => async (dispatch) => {
     dispatch(setUserSpots(spots));
   }
 };
-// Update a spot
-export const updateSpot = (spotId, spotData, imageUrls) => async (dispatch) => {
+
+//update a spot
+export const updateSpot = (spotId, spotData) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -132,38 +134,14 @@ export const updateSpot = (spotId, spotData, imageUrls) => async (dispatch) => {
 
   if (response.ok) {
     const updatedSpot = await response.json();
-
-    // Delete existing images
-    const existingImages = await csrfFetch(`/api/spots/${spotId}/images`);
-    const images = await existingImages.json();
-    for (let image of images) {
-      await csrfFetch(`/api/spot-images/${image.id}`, { method: "DELETE" });
-    }
-
-    // Add new images
-    for (let i = 0; i < imageUrls.length; i++) {
-      const imageUrl = imageUrls[i];
-      const preview = i === 0; // First image is always the preview
-
-      await csrfFetch(`/api/spots/${spotId}/images`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: imageUrl, preview }),
-      });
-    }
-
-    // Fetch updated spot details
-    const updatedSpotResponse = await fetch(`/api/spots/${spotId}`);
-    if (updatedSpotResponse.ok) {
-      const updatedSpotDetails = await updatedSpotResponse.json();
-      dispatch(updateSpotAction(updatedSpotDetails));
-      return updatedSpotDetails;
-    }
+    dispatch(updateSpotAction(updatedSpot));
+    return updatedSpot;
   } else {
     const errors = await response.json();
     throw errors;
   }
 };
+
 
 // Delete a spot
 export const deleteSpot = (spotId) => async (dispatch) => {
@@ -173,7 +151,6 @@ export const deleteSpot = (spotId) => async (dispatch) => {
   if (response.ok) {
     dispatch(removeSpot(spotId));
   } else {
-    // Handle errors if necessary
   }
 };
 

@@ -200,7 +200,7 @@ const EditSpotForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [previewImage, setPreviewImage] = useState("");
-  const [imageUrls, setImageUrls] = useState(["", "", "", "", ""]);
+  const [imageUrls, setImageUrls] = useState(["", "", "", ""]);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -219,15 +219,12 @@ const EditSpotForm = () => {
       setName(spot.name || "");
       setPrice(spot.price || "");
       // Assuming the first image is the preview image
-      const spotImages = spot.SpotImages || [];
-      const newImageUrls = [...imageUrls];
-      spotImages.forEach((image, index) => {
-        newImageUrls[index] = image.url;
-      });
-      setImageUrls(newImageUrls);
+      setPreviewImage(spot.SpotImages && spot.SpotImages[0] ? spot.SpotImages[0].url : "");
+      // Set the rest of the images
+      const restImages = spot.SpotImages ? spot.SpotImages.slice(1, 5).map(img => img.url) : [];
+      setImageUrls([...restImages, ...Array(4 - restImages.length).fill("")]);
     }
   }, [spot]);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -261,13 +258,21 @@ const EditSpotForm = () => {
     }
 
     const spotData = {
-      address, city, state: stateName, country, lat, lng, name, description, price
+      country,
+      address,
+      city,
+      state: stateName,
+      lat: parseFloat(lat) || 0,
+      lng: parseFloat(lng) || 0,
+      description,
+      name,
+      price: parseFloat(price),
     };
 
-    const filteredImageUrls = imageUrls.filter(url => url.trim() !== "");
+    const imageUrlsArray = [previewImage, ...imageUrls.filter((url) => url)];
 
     try {
-      await dispatch(updateSpot(spotId, spotData, filteredImageUrls));
+      await dispatch(updateSpot(spotId, spotData, imageUrlsArray));
       navigate(`/spots/${spotId}`);
     } catch (res) {
       const data = await res.json();
@@ -460,37 +465,42 @@ const EditSpotForm = () => {
         <hr className="divider" />
 
         <section className="photos-section">
-        <h2>Liven up your spot with photos</h2>
-        <p>Submit a link to at least one photo to publish your spot.</p>
-        <input
-          type="text"
-          value={previewImage}
-          onChange={(e) => setPreviewImage(e.target.value)}
-          placeholder="Preview Image URL"
-        />
-        {submitted && !previewImage && (
-          <span className="error">Preview image is required</span>
-        )}
-      {imageUrls.map((url, index) => (
+          <h2>Liven up your spot with photos</h2>
+          <p>Submit a link to at least one photo to publish your spot.</p>
           <input
-            key={index}
             type="text"
-            value={url}
-            onChange={(e) => {
-              const newImageUrls = [...imageUrls];
-              newImageUrls[index] = e.target.value;
-              setImageUrls(newImageUrls);
-            }}
-            placeholder={index === 0 ? "Preview Image URL" : `Image URL ${index + 1}`}
+            value={previewImage}
+            onChange={(e) => setPreviewImage(e.target.value)}
+            placeholder="Preview Image URL"
           />
-        ))}
-      </section>
+          {submitted && !previewImage && (
+            <span className="error">Preview image is required</span>
+          )}
+          {imageUrls.map((url, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => {
+                  const newImageUrls = [...imageUrls];
+                  newImageUrls[index] = e.target.value;
+                  setImageUrls(newImageUrls);
+                }}
+                placeholder="Image URL"
+              />
+              {submitted && index === 0 && url && !isValidUrl(url) && (
+                <span className="error">
+                  Image URL must end in .png, .jpg, or .jpeg
+                </span>
+              )}
+            </div>
+          ))}
+        </section>
 
-      <button type="submit">Create Spot</button>
+        <button type="submit">Update Spot</button>
       </form>
     </div>
   );
 };
 
-export default SpotForm;
-
+export default EditSpotForm;
