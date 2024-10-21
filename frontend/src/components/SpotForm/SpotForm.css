@@ -55,11 +55,12 @@
   border: 1px solid var(--gray);
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .spot-form-container textarea {
   height: 120px;
-  resize: vertical;
+  resize: none;
 }
 
 .spot-form-container .error {
@@ -86,7 +87,7 @@
 }
 
 .spot-form-container .divider {
-  margin: 30px 0;
+  margin: 20px 0; /* Reduced vertical spacing */
   border: none;
   border-top: 1px solid var(--gray);
 }
@@ -106,6 +107,7 @@
   background-color: var(--dark-blue);
 }
 
+/* Keeping the original inline-field styles */
 .spot-form-container .inline-field {
   display: flex;
   align-items: center;
@@ -113,6 +115,23 @@
   margin-bottom: 10px;
 }
 
+/* Consistent padding for all inputs */
+.spot-form-container input,
+.spot-form-container textarea {
+  padding: 10px 12px;
+}
+
+/* Spacing between inline fields */
+.spot-form-container .inline-fields .field:first-child {
+  margin-right: 10px;
+}
+
+/* Vertical spacing between image URL inputs */
+.spot-form-container .photos-section input {
+  margin-bottom: 10px;
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
   .spot-form-container {
     padding: 15px;
@@ -122,10 +141,14 @@
     flex-direction: column;
     gap: 0;
   }
+
+  .spot-form-container .inline-fields .field:first-child {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 480px) {
-
   .spot-form-container input,
   .spot-form-container textarea {
     font-size: 14px;
