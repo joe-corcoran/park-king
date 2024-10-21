@@ -5,13 +5,13 @@ import { getSpotDetails } from "../../store/spots";
 import { getReviewsBySpotId } from "../../store/reviews";
 import ReviewsList from "../ReviewsList/ReviewsList";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
-import { useModal } from "../context/Modal"; 
+import { useModal } from "../context/Modal";
 import "./SpotDetails.css";
 
 const SpotDetails = () => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const { setModalContent, closeModal } = useModal(); 
+  const { setModalContent, closeModal } = useModal();
 
   const spot = useSelector((state) => state.spots.singleSpot);
   const user = useSelector((state) => state.session.user);
@@ -88,8 +88,12 @@ const SpotDetails = () => {
               {spot.avgStarRating
                 ? Number(spot.avgStarRating).toFixed(1)
                 : "New"}
-              {" · "}
-              {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
+              {spot.numReviews > 0 && (
+                <>
+                  {" · "}
+                  {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
+                </>
+              )}
             </div>
           </div>
           <div
@@ -101,28 +105,31 @@ const SpotDetails = () => {
         </div>
       </div>
       <hr className="divider" />
-     
+
       <div className="reviews-section">
-        <h2>
-          <i className="fas fa-star"></i>{" "}
-          {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : "New"}
-          {spot.numReviews > 0 && (
-            <>
-              {" · "}
-              {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
-            </>
-          )}
-        </h2>
-        {canPostReview && (
-          <button onClick={openReviewModal} className="post-review-button">
-            Post Your Review
-          </button>
-        )}
+  <h2>
+    <i className="fas fa-star"></i>{' '}
+    {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
+    {spot.numReviews > 0 && (
+      <>
+        {' · '}
+        {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+      </>
+    )}
+  </h2>
 
-        {spot.numReviews === 0 && <p>Be the first to post a review!</p>}
+  {canPostReview && (
+    <button onClick={openReviewModal} className="post-review-button">
+      Post Your Review
+    </button>
+  )}
 
-        <ReviewsList reviews={reviews} spot={spot} user={user} />
-      </div>
+  {spot.numReviews === 0 ? (
+    <p>Be the first to post a review!</p>
+  ) : (
+    <ReviewsList reviews={reviews} spot={spot} user={user} />
+  )}
+</div>
     </div>
   );
 };
