@@ -402,7 +402,9 @@ router.get('/:spotId', async (req, res, next) => {
 
         const spotJSON = spot.toJSON();
         spotJSON.numReviews = parseInt(reviewStats.getDataValue('numReviews'), 10);
-        spotJSON.avgStarRating = parseFloat(reviewStats.getDataValue('avgStarRating')).toFixed(1);
+        
+        const avgRating = reviewStats.getDataValue('avgStarRating');
+        spotJSON.avgStarRating = avgRating ? parseFloat(avgRating).toFixed(1) : '0.0';
   
         res.json(spotJSON);
     } catch (error) {
