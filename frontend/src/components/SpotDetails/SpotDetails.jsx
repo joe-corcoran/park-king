@@ -1,5 +1,3 @@
-// src/components/SpotDetails/SpotDetails.jsx
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -30,14 +28,12 @@ const SpotDetails = () => {
     ])
       .then(() => setIsLoaded(true))
       .catch((err) => {
-        // Handle errors
       });
   }, [dispatch, spotId]);
 
   if (!isLoaded) return <div>Loading...</div>;
   if (!spot.id) return <div>Spot not found</div>;
 
-  // Review eligibility checks
   const hasUserReviewed = reviews.some(
     (review) => review.userId === user?.id
   );
@@ -45,7 +41,6 @@ const SpotDetails = () => {
   const canPostReview =
     user && user.id !== spot.ownerId && !hasUserReviewed;
 
-  // Function to open the review modal
   const openReviewModal = () => {
     setModalContent(
       <ReviewFormModal
@@ -61,6 +56,7 @@ const SpotDetails = () => {
       <div className="spot-location">
         {spot.city}, {spot.state}, {spot.country}
       </div>
+
       <div className="spot-images">
         {spot.SpotImages && spot.SpotImages.length > 0 ? (
           <>
@@ -85,25 +81,31 @@ const SpotDetails = () => {
           </h2>
           <p>{spot.description}</p>
         </div>
+
         <div className="spot-callout">
-          <div className="price">${spot.price} / night</div>
-          <div className="spot-rating">
-            <i className="fas fa-star"></i>{' '}
-            {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
-            {' · '}
-            {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
-          </div>
-          <div
-            className="reserve-button"
-            onClick={() => alert('Feature coming soon')}
-          >
-            Reserve
-          </div>
-        </div>
+  <div className="price-rating-container">
+    <div className="price">
+      ${spot.price}<span className="night-text"> night</span>
+    </div>
+    <div className="spot-rating-callout">
+      <i className="fas fa-star"></i>{' '}
+      {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
+      {' · '}
+      {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+    </div>
+  </div>
+  <div
+    className="reserve-button"
+    onClick={() => alert('Feature coming soon')}
+  >
+    Reserve
+  </div>
+</div>
+
       </div>
 
-   {/* Reviews Section */}
-   <div className="reviews-section">
+      {/* Reviews Section */}
+      <div className="reviews-section">
         <h2>
           <i className="fas fa-star"></i>{' '}
           {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}

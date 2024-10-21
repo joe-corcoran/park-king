@@ -1,129 +1,217 @@
 /* SpotDetails.css */
 
 .spot-details {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-  }
-  
-  .spot-details h1 {
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-location {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .spot-images {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .main-image {
-    flex: 1;
-  }
-  
-  .spot-details .main-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .spot-details .thumbnail-images {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .spot-details .thumbnail-images img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .spot-details .spot-info {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .spot-host {
-    flex: 2;
-  }
-  
-  .spot-details .spot-host h2 {
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-host p {
-    color: var(--indigo);
-    line-height: 1.6;
-  }
-  
-  .spot-details .spot-callout {
-    flex: 1;
-    border: 1px solid var(--gray);
-    border-radius: 8px;
-    padding: 20px;
-    background-color: var(--light-green);
-  }
-  
-  .spot-details .spot-callout .price {
-    font-size: 24px;
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-callout .spot-rating {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .spot-callout .reserve-button {
-    background-color: var(--vibrant-green);
-    color: var(--white);
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.spot-details h1 {
+  color: var(--indigo);
+  margin-bottom: 10px;
+}
+
+.spot-details .spot-location {
+  color: var(--indigo);
+  margin-bottom: 20px;
+}
+
+.spot-details .spot-images {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.spot-details .main-image {
+  flex: 1;
+}
+
+.spot-details .main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.spot-details .thumbnail-images {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.spot-details .thumbnail-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.spot-details .spot-info {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.spot-details .spot-host {
+  flex: 2;
+}
+
+.spot-details .spot-host h2 {
+  color: var(--indigo);
+  margin-bottom: 10px;
+}
+
+.spot-details .spot-host p {
+  color: var(--indigo);
+  line-height: 1.6;
+}
+
+.spot-details .spot-callout {
+  flex: 1;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  padding: 24px;
+  background-color: var(--light-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.spot-details .price-rating-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.spot-details .price-rating-container .price {
+  font-size: 22px;
+  color: var(--indigo);
+  font-weight: bold;
+  display: flex;
+  align-items: baseline;
+}
+
+.spot-details .price-rating-container .price .night-text {
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+.spot-details .price-rating-container .spot-rating-callout {
+  color: var(--indigo);
+  text-align: right;
+  font-size: 16px;
+}
+
+.spot-details .spot-callout .reserve-button {
+  background-color: var(--vibrant-green);
+  color: var(--white);
+  padding: 15px 0;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 100%;
+}
+
+.spot-details .spot-callout .reserve-button:hover {
+  background-color: var(--dark-blue);
+}
+
+.spot-details .divider {
+  margin: 20px 0;
+  border-bottom: 1px solid var(--gray);
+}
+
+.spot-details .reviews-section {
+  margin-top: 50px;
+}
+
+.spot-details .reviews-section h2 {
+  color: var(--indigo);
+  margin-bottom: 20px;
+}
+
+.spot-details .reviews-section .post-review-button {
+  background-color: var(--vibrant-green);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.spot-details .reviews-section .post-review-button:hover {
+  background-color: var(--dark-blue);
+}
+
+.spot-details .reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .spot-details {
     padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
   }
-  
-  .spot-details .spot-callout .reserve-button:hover {
-    background-color: var(--dark-blue);
-  }
-  
-  .spot-details .reviews-section {
-    margin-top: 50px;
-  }
-  
-  .spot-details .reviews-section h2 {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .reviews-section .post-review-button {
-    background-color: var(--vibrant-green);
-    color: var(--white);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .reviews-section .post-review-button:hover {
-    background-color: var(--dark-blue);
-  }
-  
-  .spot-details .reviews-list {
-    display: flex;
+
+  .spot-details .spot-images {
     flex-direction: column;
-    gap: 30px;
   }
-  
+
+  .spot-details .main-image,
+  .spot-details .thumbnail-images {
+    height: auto;
+  }
+
+  .spot-details .spot-callout {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .spot-details .thumbnail-images {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 5px;
+  }
+
+  .spot-details .spot-callout {
+    padding: 20px;
+  }
+
+  .spot-details .price-rating-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .spot-details .price-rating-container .price,
+  .spot-details .price-rating-container .spot-rating-callout {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .spot-details {
+    padding: 10px;
+  }
+
+  .spot-details .main-image img,
+  .spot-details .thumbnail-images img {
+    height: auto;
+  }
+
+  .spot-details .spot-info {
+    flex-direction: column;
+  }
+
+  .spot-details .spot-callout {
+    width: 100%;
+    margin-top: 20px;
+  }
+}

@@ -42,11 +42,7 @@
   object-fit: cover;
 }
 
-.spot-info {
-  padding: 20px;
-}
-
-.spot-info {
+.spot-tile .spot-info {
   padding: 10px;
   position: relative;
 }
@@ -56,9 +52,7 @@
   color: var(--indigo);
 }
 
-
-
-.spot-info .spot-rating {
+.spot-tile .spot-info .spot-rating-tile {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -69,12 +63,12 @@
   color: var(--indigo);
 }
 
-.spot-info .spot-rating i {
+.spot-tile .spot-info .spot-rating-tile i {
   color: var(--vibrant-green);
   margin-right: 5px;
 }
 
-.spot-price {
+.spot-tile .spot-price {
   font-weight: bold;
   font-size: 14px;
   padding-bottom: 10px; 

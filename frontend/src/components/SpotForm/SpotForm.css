@@ -1,6 +1,7 @@
+/* SpotForm.css */
 
 .spot-form-container {
-  max-width: 900px; /* Increased width */
+  max-width: 600px;
   margin: 20px auto;
   padding: 20px;
   background-color: var(--white);
@@ -8,7 +9,16 @@
 }
 
 .spot-form-container h1 {
-  text-align: center;
+  color: var(--indigo);
+  margin-bottom: 20px;
+}
+
+.spot-form-container h2 {
+  color: var(--indigo);
+  margin-bottom: 10px;
+}
+
+.spot-form-container p {
   color: var(--indigo);
   margin-bottom: 20px;
 }
@@ -16,6 +26,10 @@
 .spot-form-container form {
   display: flex;
   flex-direction: column;
+}
+
+.spot-form-container .form-group {
+  margin-bottom: 20px;
 }
 
 .spot-form-container .inline-fields {
@@ -27,14 +41,8 @@
   flex: 1;
 }
 
-.spot-form-container .inline-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
 .spot-form-container label {
+  display: block;
   margin-bottom: 5px;
   color: var(--indigo);
   font-weight: bold;
@@ -42,9 +50,8 @@
 
 .spot-form-container input,
 .spot-form-container textarea {
-  width: 70%; /* Adjust width of input/textarea */
+  width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
   border: 1px solid var(--gray);
   border-radius: 4px;
   font-size: 16px;
@@ -52,18 +59,36 @@
 
 .spot-form-container textarea {
   height: 120px;
-  resize: none;
+  resize: vertical;
 }
 
 .spot-form-container .error {
   color: var(--crayola-red);
+  font-size: 14px;
   margin-top: 5px;
 }
 
 .spot-form-container .error-inline {
   color: var(--crayola-red);
+  font-size: 14px;
   margin-left: 10px;
-  flex: 1; /* Use flex for alignment */
+}
+
+.spot-form-container .price-input {
+  display: flex;
+  align-items: center;
+}
+
+.spot-form-container .dollar-sign {
+  margin-right: 5px;
+  font-size: 16px;
+  color: var(--indigo);
+}
+
+.spot-form-container .divider {
+  margin: 30px 0;
+  border: none;
+  border-top: 1px solid var(--gray);
 }
 
 .spot-form-container button[type="submit"] {
@@ -74,8 +99,39 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 20px;
 }
 
 .spot-form-container button[type="submit"]:hover {
   background-color: var(--dark-blue);
+}
+
+.spot-form-container .inline-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .spot-form-container {
+    padding: 15px;
+  }
+
+  .spot-form-container .inline-fields {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .spot-form-container input,
+  .spot-form-container textarea {
+    font-size: 14px;
+  }
+
+  .spot-form-container button[type="submit"] {
+    font-size: 14px;
+  }
 }
