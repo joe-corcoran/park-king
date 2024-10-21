@@ -269,7 +269,10 @@ const EditSpotForm = () => {
       price: parseFloat(price),
     };
 
-    const imageUrlsArray = [previewImage, ...imageUrls.filter((url) => url)];
+    const imageUrlsArray = [
+      { url: previewImage, preview: true },
+      ...imageUrls.filter((url) => url).map((url) => ({ url, preview: false }))
+    ];
 
     try {
       await dispatch(updateSpot(spotId, spotData, imageUrlsArray));
@@ -277,15 +280,6 @@ const EditSpotForm = () => {
     } catch (res) {
       const data = await res.json();
       if (data && data.errors) setErrors(Object.values(data.errors));
-    }
-  };
-
-  const isValidUrl = (url) => {
-    try {
-      const parsedUrl = new URL(url);
-      return parsedUrl.pathname.match(/\.(png|jpg|jpeg)$/);
-    } catch (err) {
-      return false;
     }
   };
 

@@ -1,3 +1,5 @@
+//frontend/src/components/SpotForm/SpotForm.jsx
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -70,7 +72,10 @@ const SpotForm = () => {
       price: parseFloat(price),
     };
 
-    const imageUrlsArray = [previewImage, ...imageUrls.filter((url) => url)];
+    const imageUrlsArray = [
+      { url: previewImage, preview: true },
+      ...imageUrls.filter((url) => url).map((url) => ({ url, preview: false }))
+    ];
 
     try {
       const newSpot = await dispatch(createSpot(spotData, imageUrlsArray));
